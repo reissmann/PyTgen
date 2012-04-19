@@ -27,6 +27,7 @@ import string
 import ping
 import urllib2
 import smtplib
+import ftplib
 
 class ping_gen():
     __name = 'ping'
@@ -104,3 +105,30 @@ class smtp_gen():
         
         else:
             sender.quit()
+
+class ftp():
+    __name = 'ftp'
+    
+    def __init(self,
+               params):
+        self.__host = params[0]
+        self.__user = params[1]
+        self.__pass = params[2]
+        self.__put = params[3]
+        self.__get = params[4]
+        self.__num = params[5]
+        
+    def __call(self):
+        ftp = ftplib.FTP(self.__host,
+                         self.__user,
+                         self.__pass)
+        ftp.login()
+        
+        for _ in xrange(self.__num):
+            if self.__put is not None:
+                ftp.storbinary(self.__put)
+                
+            if self.__get is not None:
+                ftp.retrbinary(self.__put)
+        
+        ftp.quit()

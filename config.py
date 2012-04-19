@@ -26,7 +26,8 @@ class Conf(object):
     
 #    jobdef = [('ping_gen', [(9, 0), (18, 0), 5], ['host', num]),
 #              ('http_gen', [(9, 15), (10, 0), 10], ['host', num]),
-#              ('smtp_gen', [(9, 0), (18, 0), 10], ['host', 'smtp_user', 'smtp_pass', 'mail_from', 'mail_to'])
+#              ('smtp_gen', [(9, 0), (18, 0), 10], ['host', 'smtp_user', 'smtp_pass', 'mail_from', 'mail_to']),
+#              ('ftp_gen', [(9, 0), (18, 0), 60], ['host', 'user', 'pass', 'file_put', 'file_get', num])
 #              ]
     
     jobdef = []
