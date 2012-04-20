@@ -1,0 +1,25 @@
+PyTgen is a Traffic Generator written in Python
+
+This program can be used to generate different kinds of network traffic. A
+configuration file lets you define types of traffic that will be generated
+periodically in a given timeframe.
+
+Supported types of traffic are:
+  ping	-	Ping times to some location
+  http	-	Fetch a website
+  ftp	-	Upload and download a file
+  smtp	-	Send an email of random size
+  copy	-	Copy a file or directory to or from a nfs or smb share
+
+Each traffic definition from the config file defines a job, that is then 
+periodically distributed to a number of worker threads by a scheduler. The
+scheduler will randomize the time between the execution of each job to 
+prevent the traffic from looking too synthetic. On an average, each job will
+be executed once every interval defined in the configuration file.
+
+Please note that this software is highly experimental and was written 
+specifically for the porpose I needed it as a part of my work in a research 
+project, where we needed to generate and collect "normal" network traffic. 
+As we were not interested in packet payloads but only header information, 
+there may be many situations, where the generated traffic will not match the 
+look of actual network traffic.
