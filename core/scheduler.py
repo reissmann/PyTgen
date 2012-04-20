@@ -31,7 +31,8 @@ class scheduler(threading.Thread):
             self.__interval = interval
             self.__start = start
             self.__end = end
-            self.__exec_time = datetime.datetime.now() + datetime.timedelta(0, interval * random.random()) 
+            self.__exec_time = datetime.datetime.now() + datetime.timedelta(seconds=self.__interval[1]*random.random(),
+                                                                            minutes=self.__interval[0]*random.random()) 
         
         def __call__(self):
             today = datetime.datetime.now()
@@ -39,9 +40,10 @@ class scheduler(threading.Thread):
             end = today.replace(hour=self.__end[0], minute=self.__end[1])
             
             if start < self.__exec_time and end > self.__exec_time:
-                # enqueue job for "random() * 2 * interval" seconds
+                # enqueue job for "random() * 2 * interval" 
                 # in average the job will run every interval but differing randomly
-                self.__exec_time += datetime.timedelta(0, random.random() * 2 * self.__interval)
+                self.__exec_time += datetime.timedelta(seconds=self.__interval[1]*random.random()*2,
+                                                       minutes=self.__interval[0]*random.random()*2)
                 
                 if self.__exec_time < datetime.datetime.now():
                     logging.getLogger(__name__).warning('scheduler is overloaded!')

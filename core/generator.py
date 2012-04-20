@@ -23,11 +23,13 @@ import datetime
 import time
 import base64
 import string
+import os
 
 import ping
 import urllib2
 import smtplib
 import ftplib
+import shutil
 
 class ping_gen():
     __name = 'ping'
@@ -39,7 +41,7 @@ class ping_gen():
         
     def __call__(self):
         for _ in range(self.__num):
-            logging.getLogger(self.__name).debug("Pinging: %s", self.__host)
+            logging.getLogger(self.__name).info("Pinging: %s", self.__host)
             if ping.do_one(dest_addr=self.__host,
                            timeout=5,
                            psize=64) is not None:
@@ -55,7 +57,7 @@ class http_gen():
         
     def __call__(self):
         for _ in range(self.__num):
-            logging.getLogger(self.__name).debug("Requesting: %s", self.__url)
+            logging.getLogger(self.__name).info("Requesting: %s", self.__url)
             response = urllib2.urlopen(self.__url)
             logging.getLogger(self.__name).debug("Recieved %s byte from %s", str(len(response.read())), self.__url)
             time.sleep(random.random() * 5)
@@ -81,7 +83,7 @@ class smtp_gen():
             + "Subject: PyTgen " + str(datetime.datetime.now()) + "\r\n\r\n" \
             + rnd + "\r\n"
         
-        logging.getLogger(self.__name).debug("Connecting to %s", self.__host)
+        logging.getLogger(self.__name).info("Connecting to %s", self.__host)
         
         try: 
             sender = smtplib.SMTP(self.__host, 25)
@@ -106,10 +108,10 @@ class smtp_gen():
         else:
             sender.quit()
 
-class ftp():
+class ftp_gen():
     __name = 'ftp'
     
-    def __init(self,
+    def __init__(self,
                params):
         self.__host = params[0]
         self.__user = params[1]
@@ -118,17 +120,53 @@ class ftp():
         self.__get = params[4]
         self.__num = params[5]
         
-    def __call(self):
+    def __call__(self):
+        logging.getLogger(self.__name).info("Connecting to %s", self.__host)
+        
         ftp = ftplib.FTP(self.__host,
                          self.__user,
                          self.__pass)
-        ftp.login()
         
         for _ in xrange(self.__num):
             if self.__put is not None:
-                ftp.storbinary(self.__put)
-                
+                logging.getLogger(self.__name).debug("Uploading %s", self.__put)
+                f = open("files/" + self.__put, 'r')
+                ftp.storbinary("STOR " + self.__put, f)
+                f.close()
+            
+            time.sleep(5 * random.random())   
+            
             if self.__get is not None:
-                ftp.retrbinary(self.__put)
+                logging.getLogger(self.__name).debug("Downloading %s", self.__get)
+                ftp.retrbinary('RETR ' + self.__get, self.__getfile)
+                
+            time.sleep(5 * random.random())
         
         ftp.quit()
+        
+    def __getfile(self,
+                  file):
+        pass
+
+class copy_gen():
+    __name = "copy"
+    
+    def __init__(self,
+                 params):
+        self.__src = params[0]
+        self.__dst = params[1]
+        
+    def __call__(self):
+        logging.getLogger(self.__name).info("Copying from %s to %s", self.__src, self.__dst)
+        
+        if os.path.isdir(self.__src):
+            dst = self.__dst + "/" + self.__src
+            
+            if os.path.exists(dst):
+                logging.getLogger(self.__name).debug("Destination %s exists. Deleting it.", dst)
+                shutil.rmtree(dst)
+                
+            shutil.copytree(self.__src, dst)
+            
+        else:
+            shutil.copy2(self.__src, self.__dst)

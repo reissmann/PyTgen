@@ -23,7 +23,7 @@ import signal
 import core.runner
 import core.scheduler
 
-from core.generator import http_gen, ping_gen, smtp_gen
+from core.generator import *
 
 from config import Conf
 
@@ -39,9 +39,6 @@ def create_jobs():
                                  start = next_job[1][0],
                                  end = next_job[1][1])
         jobs.append(job)
-        
-    else:
-        logging.getLogger('main').debug('No job definitions found. Exiting ...')
         
     return jobs
 

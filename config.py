@@ -24,10 +24,24 @@ class Conf(object):
     
     loglevel = logging.DEBUG
     
-#    jobdef = [('ping_gen', [(9, 0), (18, 0), 5], ['host', num]),
-#              ('http_gen', [(9, 15), (10, 0), 10], ['host', num]),
-#              ('smtp_gen', [(9, 0), (18, 0), 10], ['host', 'smtp_user', 'smtp_pass', 'mail_from', 'mail_to']),
-#              ('ftp_gen', [(9, 0), (18, 0), 60], ['host', 'user', 'pass', 'file_put', 'file_get', num])
+#    jobdef = [('ping_gen', [(9, 0), (18, 0), (0, 5)], ['host', num]),
+#              ('http_gen', [(9, 15), (10, 0), (10, 0)], ['host', num]),
+#              ('smtp_gen', [(9, 0), (18, 0), (10, 0)], ['host', 'smtp_user', 'smtp_pass', 'mail_from', 'mail_to']),
+#              ('ftp_gen', [(9, 0), (18, 0), (60, 0)], ['host', 'user', 'pass', 'file_put', 'file_get', num]),
+#              ('copy_gen', [(9, 0), (18, 0), (0, 5)], ['src', dst])
 #              ]
     
-    jobdef = []
+    #jobdef = [('ftp_gen', [(9, 0), (18, 0), 10], ['127.0.0.1', 'lain', 'lain', 'small.bin', 'small.bin', 2])]
+    
+    jobdef = [# ping
+              #('ping_gen', [(9, 0), (18, 0), (60, 0)], ['127.0.0.1', 4]),
+              #('ping_gen', [(16, 0), (16, 30), (5, 0)], ['127.0.0.1', 4]),
+              # http
+              #('http_gen', [(8, 50), (16, 30), (10, 0)], ['127.0.0.1', 1]),
+              #('http_gen', [(9, 15), (10, 15), (10, 0)], ['127.0.0.1', 5]),
+              # smtp
+              #('smtp_gen', [(9, 0), (18, 0), (10, 0)], ['host', 'smtp_user', 'smtp_pass', 'mail_from', 'mail_to']),
+              # ftp
+              #('ftp_gen', [(9, 0), (18, 0), (10, 0)], ['127.0.0.1', 'lain', 'lain', 'small.bin', 'small.bin', 2])
+              ('copy_gen', [(9, 0), (18, 0), (0, 10)], ['/home/reissmann/Dev/PyTgen/files/small.bin', '/tmp'])
+              ]
