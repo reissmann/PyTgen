@@ -28,7 +28,9 @@ class Conf(object):
 #              ('http_gen', [(9, 15), (10, 0), (10, 0)], ['host', num]),
 #              ('smtp_gen', [(9, 0), (18, 0), (10, 0)], ['host', 'smtp_user', 'smtp_pass', 'mail_from', 'mail_to']),
 #              ('ftp_gen', [(9, 0), (18, 0), (60, 0)], ['host', 'user', 'pass', 'file_put', 'file_get', num]),
-#              ('copy_gen', [(9, 0), (18, 0), (0, 5)], ['src', dst])
+#              ('copy_gen', [(9, 0), (18, 0), (0, 5)], ['src', dst]),
+#              ('ssh_gen', [(9, 0), (18, 0), (0, 5)], ['host', 'user', 'pass']),
+#              ('sftp_gen', [(9, 0), (18, 0), (0, 5)], ['host', 'user', 'pass', 'src', 'dst'])
 #              ]
     
     #jobdef = [('ftp_gen', [(9, 0), (18, 0), 10], ['127.0.0.1', 'lain', 'lain', 'small.bin', 'small.bin', 2])]
@@ -43,5 +45,6 @@ class Conf(object):
               #('smtp_gen', [(9, 0), (18, 0), (10, 0)], ['host', 'smtp_user', 'smtp_pass', 'mail_from', 'mail_to']),
               # ftp
               #('ftp_gen', [(9, 0), (18, 0), (10, 0)], ['127.0.0.1', 'lain', 'lain', 'small.bin', 'small.bin', 2])
-              ('copy_gen', [(9, 0), (18, 0), (0, 10)], ['/home/reissmann/Dev/PyTgen/files/small.bin', '/tmp'])
+              #('copy_gen', [(9, 0), (18, 0), (0, 10)], ['/home/reissmann/Dev/PyTgen/files/small.bin', '/tmp'])
+              #('ssh_gen', [(9, 0), (18, 0), (0, 15)], ['127.0.0.1', 'xx', 'xx'])
               ]

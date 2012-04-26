@@ -30,6 +30,8 @@ import urllib2
 import smtplib
 import ftplib
 import shutil
+import paramiko
+
 
 class ping_gen():
     __name = 'ping'
@@ -50,7 +52,7 @@ class ping_gen():
 class http_gen():
     __name = 'http'
     
-    def __init__(self, 
+    def __init__(self,
                  params):
         self.__url = params[0]
         self.__num = params[1]
@@ -170,3 +172,62 @@ class copy_gen():
             
         else:
             shutil.copy2(self.__src, self.__dst)
+
+class ssh_gen():
+    __name = "ssh"
+    
+    def __init__(self,
+                 params):
+        self.__host = params[0]
+        self.__port = 22
+        self.__user = params[1]
+        self.__pass = params[2]
+
+    def __call__(self):
+        logging.getLogger(self.__name).info("Connecting to %s", self.__host)
+        
+        client = paramiko.SSHClient()
+        client.load_system_host_keys()
+        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        client.connect(self.__host, 
+                       self.__port, 
+                       self.__user, 
+                       self.__pass)
+        
+        (stdin, stdout, stderr) = client.exec_command("ls")
+        print stdout.readlines()
+        
+        client.close()
+        
+class sftp_gen():
+    __name = "sftp"
+    
+    def __init__(self,
+                 params):
+        self.__host = params[0]
+        self.__port = 22
+        self.__user = params[1]
+        self.__pass = params[2]
+        self.__src = params[3]
+        self.__dst = params[4]
+
+    def __call__(self):
+        logging.getLogger(self.__name).info("Connecting to %s", self.__host)
+        
+        client = paramiko.SSHClient()
+        client.load_system_host_keys()
+        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        client.connect(self.__host, 
+                       self.__port, 
+                       self.__user, 
+                       self.__pass)
+        
+        sftp = paramiko.SFTPClient(client.get_transport())
+        #sftp.get(self.__dst, self.__src, self._getfile)
+        #sftp.put(self.__src, self.__dst)
+        
+        client.close()
+        
+    def _getfile(self,
+                  file):
+        pass
