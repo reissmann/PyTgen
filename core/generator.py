@@ -34,61 +34,61 @@ import paramiko
 
 
 class ping_gen():
-    __name = 'ping'
+    __generator__ = 'ping'
     
     def __init__(self,
                  params):
-        self.__host = params[0]
-        self.__num = params[1]
+        self._host = params[0]
+        self._num = params[1]
         
     def __call__(self):
-        for _ in range(self.__num):
-            logging.getLogger(self.__name).info("Pinging: %s", self.__host)
-            if ping.do_one(dest_addr=self.__host,
+        for _ in range(self._num):
+            logging.getLogger(self.__generator__).info("Pinging: %s", self._host)
+            if ping.do_one(dest_addr=self._host,
                            timeout=5,
                            psize=64) is not None:
-                logging.getLogger(self.__name).debug("Got PONG from %s", self.__host)
+                logging.getLogger(self.__generator__).debug("Got PONG from %s", self._host)
 
 class http_gen():
-    __name = 'http'
+    __generator__ = 'http'
     
     def __init__(self,
                  params):
-        self.__url = params[0]
-        self.__num = params[1]
+        self._url = params[0]
+        self._num = params[1]
         
     def __call__(self):
-        for _ in range(self.__num):
-            logging.getLogger(self.__name).info("Requesting: %s", self.__url)
-            response = urllib2.urlopen(self.__url)
-            logging.getLogger(self.__name).debug("Recieved %s byte from %s", str(len(response.read())), self.__url)
-            time.sleep(random.random() * 5)
+        for _ in range(self._num):
+            logging.getLogger(self.__generator__).info("Requesting: %s", self._url)
+            response = urllib2.urlopen(self._url)
+            logging.getLogger(self.__generator__).debug("Recieved %s byte from %s", str(len(response.read())), self._url)
+            time.sleep(random.random() * 5)    
     
 class smtp_gen():
-    __name = "smtp"
+    __generator__ = "smtp"
     
     def __init__(self,
                  params):
-        self.__host = params[0]
-        self.__user = params[1]
-        self.__pass = params[2]
-        self.__from = params[3]
-        self.__to = params[4]
+        self._host = params[0]
+        self._user = params[1]
+        self._pass = params[2]
+        self._from = params[3]
+        self._to = params[4]
         
     def __call__(self):
         rnd = ''
         for _ in xrange(int(10000 * random.random())):
             rnd = rnd + random.choice(string.letters)
         
-        msg = "From: " + self.__from + "\r\n" \
-            + "To: " + self.__to + "\r\n" \
+        msg = "From: " + self._from + "\r\n" \
+            + "To: " + self._to + "\r\n" \
             + "Subject: PyTgen " + str(datetime.datetime.now()) + "\r\n\r\n" \
             + rnd + "\r\n"
         
-        logging.getLogger(self.__name).info("Connecting to %s", self.__host)
+        logging.getLogger(self.__generator__).info("Connecting to %s", self._host)
         
         try: 
-            sender = smtplib.SMTP(self.__host, 25)
+            sender = smtplib.SMTP(self._host, 25)
         
             try:
                 sender.starttls()
@@ -96,13 +96,13 @@ class smtp_gen():
                 pass
             
             try:
-                sender.login(self.__user, self.__pass)
+                sender.login(self._user, self._pass)
             except smtplib.SMTPAuthenticationError:
-                sender.docmd("AUTH LOGIN", base64.b64encode(self.__user))
-                sender.docmd(base64.b64encode(self.__pass), "")
+                sender.docmd("AUTH LOGIN", base64.b64encode(self._user))
+                sender.docmd(base64.b64encode(self._pass), "")
             
-            sender.sendmail(self.__from, self.__to, msg)
-            logging.getLogger(self.__name).debug("Sent mail via %s", self.__host)
+            sender.sendmail(self._from, self._to, msg)
+            logging.getLogger(self.__generator__).debug("Sent mail via %s", self._host)
                 
         except:
             raise
@@ -111,36 +111,36 @@ class smtp_gen():
             sender.quit()
 
 class ftp_gen():
-    __name = 'ftp'
+    __generator__ = 'ftp'
     
     def __init__(self,
                params):
-        self.__host = params[0]
-        self.__user = params[1]
-        self.__pass = params[2]
-        self.__put = params[3]
-        self.__get = params[4]
-        self.__num = params[5]
+        self._host = params[0]
+        self._user = params[1]
+        self._pass = params[2]
+        self._put = params[3]
+        self._get = params[4]
+        self._num = params[5]
         
     def __call__(self):
-        logging.getLogger(self.__name).info("Connecting to %s", self.__host)
+        logging.getLogger(self.__generator__).info("Connecting to %s", self._host)
         
-        ftp = ftplib.FTP(self.__host,
-                         self.__user,
-                         self.__pass)
+        ftp = ftplib.FTP(self._host,
+                         self._user,
+                         self._pass)
         
-        for _ in xrange(self.__num):
-            if self.__put is not None:
-                logging.getLogger(self.__name).debug("Uploading %s", self.__put)
-                f = open("files/" + self.__put, 'r')
-                ftp.storbinary("STOR " + self.__put, f)
+        for _ in xrange(self._num):
+            if self._put is not None:
+                logging.getLogger(self.__generator__).debug("Uploading %s", self._put)
+                f = open("files/" + self._put, 'r')
+                ftp.storbinary("STOR " + self._put, f)
                 f.close()
             
             time.sleep(5 * random.random())   
             
-            if self.__get is not None:
-                logging.getLogger(self.__name).debug("Downloading %s", self.__get)
-                ftp.retrbinary('RETR ' + self.__get, self.__getfile)
+            if self._get is not None:
+                logging.getLogger(self.__generator__).debug("Downloading %s", self._get)
+                ftp.retrbinary('RETR ' + self._get, self.__getfile)
                 
             time.sleep(5 * random.random())
         
@@ -151,48 +151,48 @@ class ftp_gen():
         pass
 
 class copy_gen():
-    __name = "copy"
+    __generator__ = "copy"
     
     def __init__(self,
                  params):
-        self.__src = params[0]
-        self.__dst = params[1]
+        self._src = params[0]
+        self._dst = params[1]
         
     def __call__(self):
-        logging.getLogger(self.__name).info("Copying from %s to %s", self.__src, self.__dst)
+        logging.getLogger(self.__generator__).info("Copying from %s to %s", self._src, self._dst)
         
-        if os.path.isdir(self.__src):
-            dst = self.__dst + "/" + self.__src
+        if os.path.isdir(self._src):
+            dst = self._dst + "/" + self._src
             
             if os.path.exists(dst):
-                logging.getLogger(self.__name).debug("Destination %s exists. Deleting it.", dst)
+                logging.getLogger(self.__generator__).debug("Destination %s exists. Deleting it.", dst)
                 shutil.rmtree(dst)
                 
-            shutil.copytree(self.__src, dst)
+            shutil.copytree(self._src, dst)
             
         else:
-            shutil.copy2(self.__src, self.__dst)
+            shutil.copy2(self._src, self._dst)
 
 class ssh_gen():
-    __name = "ssh"
+    __generator__ = "ssh"
     
     def __init__(self,
                  params):
-        self.__host = params[0]
-        self.__port = 22
-        self.__user = params[1]
-        self.__pass = params[2]
+        self._host = params[0]
+        self._port = 22
+        self._user = params[1]
+        self._pass = params[2]
 
     def __call__(self):
-        logging.getLogger(self.__name).info("Connecting to %s", self.__host)
+        logging.getLogger(self.__generator__).info("Connecting to %s", self._host)
         
         client = paramiko.SSHClient()
         client.load_system_host_keys()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        client.connect(self.__host, 
-                       self.__port, 
-                       self.__user, 
-                       self.__pass)
+        client.connect(self._host, 
+                       self._port, 
+                       self._user, 
+                       self._pass)
         
         (stdin, stdout, stderr) = client.exec_command("ls")
         print stdout.readlines()
@@ -200,31 +200,31 @@ class ssh_gen():
         client.close()
         
 class sftp_gen():
-    __name = "sftp"
+    __generator__ = "sftp"
     
     def __init__(self,
                  params):
-        self.__host = params[0]
-        self.__port = 22
-        self.__user = params[1]
-        self.__pass = params[2]
-        self.__src = params[3]
-        self.__dst = params[4]
+        self._host = params[0]
+        self._port = 22
+        self._user = params[1]
+        self._pass = params[2]
+        self._src = params[3]
+        self._dst = params[4]
 
     def __call__(self):
-        logging.getLogger(self.__name).info("Connecting to %s", self.__host)
+        logging.getLogger(self.__generator__).info("Connecting to %s", self._host)
         
         client = paramiko.SSHClient()
         client.load_system_host_keys()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        client.connect(self.__host, 
-                       self.__port, 
-                       self.__user, 
-                       self.__pass)
+        client.connect(self._host, 
+                       self._port, 
+                       self._user, 
+                       self._pass)
         
         sftp = paramiko.SFTPClient(client.get_transport())
-        #sftp.get(self.__dst, self.__src, self._getfile)
-        #sftp.put(self.__src, self.__dst)
+        #sftp.get(self._dst, self._src, self._getfile)
+        #sftp.put(self._src, self._dst)
         
         client.close()
         
