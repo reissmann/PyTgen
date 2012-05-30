@@ -34,6 +34,9 @@ import paramiko
 
 
 class ping_gen():
+    '''
+    ping generator
+    '''
     __generator__ = 'ping'
     
     def __init__(self,
@@ -50,6 +53,9 @@ class ping_gen():
                 logging.getLogger(self.__generator__).debug("Got PONG from %s", self._host)
 
 class http_gen():
+    '''
+    http and https generator
+    '''
     __generator__ = 'http'
     
     def __init__(self,
@@ -65,6 +71,9 @@ class http_gen():
             time.sleep(random.random() * 5)    
     
 class smtp_gen():
+    '''
+    smtp generator
+    '''
     __generator__ = "smtp"
     
     def __init__(self,
@@ -111,6 +120,9 @@ class smtp_gen():
             sender.quit()
 
 class ftp_gen():
+    '''
+    ftp and ftp_tls generator
+    '''
     __generator__ = 'ftp'
     
     def __init__(self,
@@ -121,13 +133,21 @@ class ftp_gen():
         self._put = params[3]
         self._get = params[4]
         self._num = params[5]
+        self._tls = params[6]
         
     def __call__(self):
-        logging.getLogger(self.__generator__).info("Connecting to %s", self._host)
-        
-        ftp = ftplib.FTP(self._host,
-                         self._user,
-                         self._pass)
+        if self._tls == True:
+            logging.getLogger(self.__generator__).info("Connecting to ftps://%s", self._host)
+            ftp = ftplib.FTP(self._host,
+                             self._user,
+                             self._pass)
+            ftp.prot_p()
+            
+        else:
+            logging.getLogger(self.__generator__).info("Connecting to ftp://%s", self._host)
+            ftp = ftplib.FTP(self._host,
+                             self._user,
+                             self._pass)
         
         for _ in xrange(self._num):
             if self._put is not None:

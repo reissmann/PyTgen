@@ -27,7 +27,7 @@ class Conf(object):
 #    jobdef = [('ping_gen', [(9, 0), (18, 0), (0, 5)], ['host', num]),
 #              ('http_gen', [(9, 15), (10, 0), (10, 0)], ['host', num]),
 #              ('smtp_gen', [(9, 0), (18, 0), (10, 0)], ['host', 'smtp_user', 'smtp_pass', 'mail_from', 'mail_to']),
-#              ('ftp_gen', [(9, 0), (18, 0), (60, 0)], ['host', 'user', 'pass', 'file_put', 'file_get', num]),
+#              ('ftp_gen', [(9, 0), (18, 0), (60, 0)], ['host', 'user', 'pass', 'file_put', 'file_get', num, ssl]),
 #              ('copy_gen', [(9, 0), (18, 0), (0, 5)], ['src', dst]),
 #              ('ssh_gen', [(9, 0), (18, 0), (0, 5)], ['host', 'user', 'pass']),
 #              ('sftp_gen', [(9, 0), (18, 0), (0, 5)], ['host', 'user', 'pass', 'src', 'dst'])
@@ -41,10 +41,13 @@ class Conf(object):
               # http
               #('http_gen', [(8, 50), (16, 30), (10, 0)], ['127.0.0.1', 1]),
               #('http_gen', [(9, 15), (10, 15), (10, 0)], ['127.0.0.1', 5]),
+              #('http_gen', [(9, 15), (17, 15), (10, 0)], ['https://www.google.com', 2]),
               # smtp
               #('smtp_gen', [(9, 0), (18, 0), (10, 0)], ['host', 'smtp_user', 'smtp_pass', 'mail_from', 'mail_to']),
               # ftp
-              #('ftp_gen', [(9, 0), (18, 0), (10, 0)], ['127.0.0.1', 'lain', 'lain', 'small.bin', 'small.bin', 2])
-              #('copy_gen', [(9, 0), (18, 0), (0, 10)], ['/home/reissmann/Dev/PyTgen/files/small.bin', '/tmp'])
+              #('ftp_gen', [(9, 0), (18, 0), (10, 0)], ['127.0.0.1', 'lain', 'lain', 'small.bin', 'small.bin', 2, False]),
+              #('ftp_gen', [(9, 0), (18, 0), (10, 0)], ['127.0.0.1', 'lain', 'lain', 'small.bin', 'small.bin', 2, True]),
+              #
+              #('copy_gen', [(9, 0), (18, 0), (0, 10)], ['/home/reissmann/Dev/PyTgen/files/small.bin', '/tmp']),
               #('ssh_gen', [(9, 0), (18, 0), (0, 15)], ['127.0.0.1', 'xx', 'xx'])
               ]
