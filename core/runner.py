@@ -38,8 +38,9 @@ class worker(threading.Thread):
         
         self.__dismissed = threading.Event()
         
-        self.setDaemon(True)
-        self.setName(self.__name)
+        self.daemon = True
+        self.name = self.__name
+
         self.start()
 
     def run(self):
@@ -76,16 +77,16 @@ class worker(threading.Thread):
 
 class runner(object):
     def __init__(self,
-                 threads = 10,
+                 maxthreads = 10,
                  thread_create = None,
                  thread_destroy = None):
         self.__queue = Queue.Queue()
+        self.__maxthreads = maxthreads
         
-        logging.getLogger('runner').info('creating runner with %d threads',
-                                         threads)
+        logging.getLogger('runner').info('creating runner with 3 threads')
         
         self.__workers = []
-        for i in xrange(0, threads):
+        for i in xrange(0, 3):
             name = 'worker_%d' % i
             
             logging.getLogger('runner').debug('creating worker thread: %s',
@@ -99,6 +100,20 @@ class runner(object):
     def __call__(self,
                  action):
         self.__queue.put(action)
+
+        if (self.__queue.qsize() > 2):
+            if (len(self.__workers) < self.__maxthreads):
+                self._spawn()
+            else:
+                logging.getLogger('Runner').warning('Not enough worker threads to handle queue')
+
+    def _spawn(self):
+        name = 'worker_%d' % (len(self.__workers) + 1)
+        logging.getLogger('Runner').info('spawning new worker thread: %s', name)
+        self.__workers.append(Worker(name = name,
+                                     queue = self.__queue,
+                                     create = None,
+                                     destroy = None))
 
     def stop(self):
         for worker in self.__workers:

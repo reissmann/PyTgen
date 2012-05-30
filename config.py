@@ -20,7 +20,7 @@ along with PyTgen. If not, see <http://www.gnu.org/licenses/>.
 import logging
 
 class Conf(object):
-    threads = 5
+    maxthreads = 5
     
     loglevel = logging.DEBUG
     

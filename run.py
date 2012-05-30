@@ -45,7 +45,7 @@ def create_jobs():
 if __name__ == '__main__':
     logging.basicConfig(level = Conf.loglevel)
     
-    runner = core.runner(threads = Conf.threads)
+    runner = core.runner(maxthreads = Conf.maxthreads)
     
     jobs = create_jobs()
     
