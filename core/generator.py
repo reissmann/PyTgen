@@ -141,37 +141,47 @@ class ftp_gen():
         self._tls = params[6]
         
     def __call__(self):
+        ftp = None
         if self._tls == True:
             logging.getLogger(self.__generator__).info("Connecting to ftps://%s", self._host)
-            ftp = ftplib.FTP(self._host,
-                             self._user,
-                             self._pass)
-            ftp.prot_p()
+            try:
+                ftp = ftplib.FTP_TLS(self._host,
+                                     self._user,
+                                     self._pass)
+                ftp.prot_p()
+            except:
+                logging.getLogger(self.__generator__).debug("Error connecting to ftps://%s", self._host)
             
         else:
             logging.getLogger(self.__generator__).info("Connecting to ftp://%s", self._host)
-            ftp = ftplib.FTP(self._host,
-                             self._user,
-                             self._pass)
+            try:
+                ftp = ftplib.FTP(self._host,
+                                 self._user,
+                                 self._pass)
+            except:
+                logging.getLogger(self.__generator__).debug("Error connecting to ftp://%s", self._host)
         
-        for _ in xrange(self._num):
-            if self._put is not None:
-                logging.getLogger(self.__generator__).debug("Uploading %s", self._put)
-                f = open("files/" + self._put, 'r')
-                ftp.storbinary("STOR " + self._put, f)
-                f.close()
+        if ftp is not None:
+            ftp.retrlines('LIST')
             
-            time.sleep(5 * random.random())   
-            
-            if self._get is not None:
-                logging.getLogger(self.__generator__).debug("Downloading %s", self._get)
-                ftp.retrbinary('RETR ' + self._get, self.__getfile)
+            for _ in xrange(self._num):
+                if self._put is not None:
+                    logging.getLogger(self.__generator__).debug("Uploading %s", self._put)
+                    f = open("files/" + self._put, 'r')
+                    ftp.storbinary("STOR " + self._put, f)
+                    f.close()
                 
-            time.sleep(5 * random.random())
+                time.sleep(5 * random.random())   
+                
+                if self._get is not None:
+                    logging.getLogger(self.__generator__).debug("Downloading %s", self._get)
+                    ftp.retrbinary('RETR ' + self._get, self._getfile)
+                    
+                time.sleep(5 * random.random())
         
-        ftp.quit()
+            ftp.quit()
         
-    def __getfile(self,
+    def _getfile(self,
                   file):
         pass
 
