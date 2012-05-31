@@ -20,26 +20,22 @@ along with PyTgen. If not, see <http://www.gnu.org/licenses/>.
 import logging
 
 class Conf(object):
+    # maximum number of worker threads that can be used to execute the jobs.
+    # the program will start using 3 threads and spawn new ones if needed.
+    # this setting depends on the number of jobs that have to be executed
+    # simultaneously (not the number of jobs given in the config file). 
     maxthreads = 10
     
+    # set to "logging.INFO" or "logging.DEBUG"
     loglevel = logging.INFO
     
+    # ssh commands that will be randomly executed by the ssh traffic generator
     ssh_commands = ['ls', 'cd', 'cd /etc', 'ps ax', 'date', 'mount', 'free', 'vmstat',
                     'touch /tmp/tmpfile', 'rm /tmp/tmpfile', 'ls /tmp/tmpfile',
                     'tail /etc/hosts', 'tail /etc/passwd', 'tail /etc/fstab',
                     'cat /var/log/messages', 'cat /etc/group', 'cat /etc/mtab']
     
-#    jobdef = [('ping_gen', [(9, 0), (18, 0), (0, 5)], ['host', num]),
-#              ('http_gen', [(9, 15), (10, 0), (10, 0)], ['url', num]),
-#              ('smtp_gen', [(9, 0), (18, 0), (10, 0)], ['host', 'smtp_user', 'smtp_pass', 'mail_from', 'mail_to']),
-#              ('ftp_gen', [(9, 0), (18, 0), (60, 0)], ['host', 'user', 'pass', 'file_put', 'file_get', num, ssl]),
-#              ('copy_gen', [(9, 0), (18, 0), (0, 5)], ['src', dst]),
-#              ('ssh_gen', [(9, 0), (18, 0), (0, 5)], ['host', port, 'user', 'pass', minutes, commands]),
-#              ('sftp_gen', [(9, 0), (18, 0), (0, 5)], ['host', port, 'user', 'pass', 'src', 'dst'])
-#              ]
-    
-    #jobdef = [('ftp_gen', [(9, 0), (18, 0), 10], ['127.0.0.1', 'lain', 'lain', 'small.bin', 'small.bin', 2])]
-    
+    # job configuration (see config.example.py)
     jobdef = [# ping
               #('ping_gen', [(9, 0), (18, 0), (60, 0)], ['127.0.0.1', 4]),
               #('ping_gen', [(16, 0), (16, 30), (5, 0)], ['127.0.0.1', 4]),
