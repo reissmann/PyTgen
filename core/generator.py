@@ -241,14 +241,19 @@ class ssh_gen():
         else:
             # simulate some stupid work until requested connection time is over
             while datetime.datetime.now() < endtime:
-                client.exec_command(self._cmds[random.randint(0, (len(self._cmds) - 1))])
-                time.sleep(5 * random.random())
-                client.exec_command(self._cmds[random.randint(0, (len(self._cmds) - 1))])
-                time.sleep(5 * random.random())
-                client.exec_command(self._cmds[random.randint(0, (len(self._cmds) - 1))])
+                if len(self._cmds) is not 0:
+                    self._send_cmds(client)
                 time.sleep(30 * random.random())
             
             client.close()
+        
+    def _send_cmds(self,
+                   client):
+        client.exec_command(self._cmds[random.randint(0, (len(self._cmds) - 1))])
+        time.sleep(5 * random.random())
+        client.exec_command(self._cmds[random.randint(0, (len(self._cmds) - 1))])
+        time.sleep(5 * random.random())
+        client.exec_command(self._cmds[random.randint(0, (len(self._cmds) - 1))])
         
 class sftp_gen():
     __generator__ = "sftp"
