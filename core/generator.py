@@ -214,9 +214,9 @@ class ssh_gen():
     def __init__(self,
                  params):
         self._host = params[0]
-        self._port = 22
-        self._user = params[1]
-        self._pass = params[2]
+        self._port = params[1]
+        self._user = params[2]
+        self._pass = params[3]
 
     def __call__(self):
         logging.getLogger(self.__generator__).info("Connecting to %s", self._host)
@@ -230,7 +230,7 @@ class ssh_gen():
                        self._pass)
         
         (stdin, stdout, stderr) = client.exec_command("ls")
-        print stdout.readlines()
+        #print stdout.readlines()
         
         client.close()
         
@@ -240,11 +240,11 @@ class sftp_gen():
     def __init__(self,
                  params):
         self._host = params[0]
-        self._port = 22
-        self._user = params[1]
-        self._pass = params[2]
-        self._src = params[3]
-        self._dst = params[4]
+        self._port = params[1]
+        self._user = params[2]
+        self._pass = params[3]
+        self._src = params[4]
+        self._dst = params[5]
 
     def __call__(self):
         logging.getLogger(self.__generator__).info("Connecting to %s", self._host)
