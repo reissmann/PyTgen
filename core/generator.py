@@ -66,8 +66,13 @@ class http_gen():
     def __call__(self):
         for _ in range(self._num):
             logging.getLogger(self.__generator__).info("Requesting: %s", self._url)
-            response = urllib2.urlopen(self._url)
-            logging.getLogger(self.__generator__).debug("Recieved %s byte from %s", str(len(response.read())), self._url)
+            try:
+                response = urllib2.urlopen(self._url)
+                logging.getLogger(self.__generator__).debug("Recieved %s byte from %s", str(len(response.read())), self._url)
+
+            except:
+                logging.getLogger(self.__generator__).debug("Failed to request %s", self._url)
+
             time.sleep(random.random() * 5)    
     
 class smtp_gen():
