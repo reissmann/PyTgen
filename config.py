@@ -29,6 +29,9 @@ class Conf(object):
     # set to "logging.INFO" or "logging.DEBUG"
     loglevel = logging.INFO
     
+    # logfile location (None = log to console)
+    logfile = "/tmp/pytgen.log"
+
     # ssh commands that will be randomly executed by the ssh traffic generator
     ssh_commands = ['ls', 'cd', 'cd /etc', 'ps ax', 'date', 'mount', 'free', 'vmstat',
                     'touch /tmp/tmpfile', 'rm /tmp/tmpfile', 'ls /tmp/tmpfile',
