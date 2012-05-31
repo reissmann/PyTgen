@@ -110,7 +110,7 @@ class runner(object):
     def _spawn(self):
         name = 'worker_%d' % (len(self.__workers) + 1)
         logging.getLogger('Runner').info('spawning new worker thread: %s', name)
-        self.__workers.append(Worker(name = name,
+        self.__workers.append(worker(name = name,
                                      queue = self.__queue,
                                      create = None,
                                      destroy = None))
