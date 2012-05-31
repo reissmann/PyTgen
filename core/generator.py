@@ -217,22 +217,38 @@ class ssh_gen():
         self._port = params[1]
         self._user = params[2]
         self._pass = params[3]
+        self._time = params[4]
+        self._cmds = params[5]
 
     def __call__(self):
         logging.getLogger(self.__generator__).info("Connecting to %s", self._host)
         
+        endtime = datetime.datetime.now() + datetime.timedelta(minutes = self._time * 2 * random.random())
+        
         client = paramiko.SSHClient()
         client.load_system_host_keys()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        client.connect(self._host, 
-                       self._port, 
-                       self._user, 
-                       self._pass)
         
-        (stdin, stdout, stderr) = client.exec_command("ls")
-        #print stdout.readlines()
-        
-        client.close()
+        try:
+            client.connect(self._host, 
+                           self._port, 
+                           self._user, 
+                           self._pass)
+            
+        except:
+            logging.getLogger(self.__generator__).debug("Error connecting to %s", self._host)
+            
+        else:
+            # simulate some stupid work until requested connection time is over
+            while datetime.datetime.now() < endtime:
+                client.exec_command(self._cmds[random.randint(0, (len(self._cmds) - 1))])
+                time.sleep(5 * random.random())
+                client.exec_command(self._cmds[random.randint(0, (len(self._cmds) - 1))])
+                time.sleep(5 * random.random())
+                client.exec_command(self._cmds[random.randint(0, (len(self._cmds) - 1))])
+                time.sleep(30 * random.random())
+            
+            client.close()
         
 class sftp_gen():
     __generator__ = "sftp"

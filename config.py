@@ -20,16 +20,21 @@ along with PyTgen. If not, see <http://www.gnu.org/licenses/>.
 import logging
 
 class Conf(object):
-    maxthreads = 5
+    maxthreads = 10
     
-    loglevel = logging.DEBUG
+    loglevel = logging.INFO
+    
+    ssh_commands = ['ls', 'cd', 'cd /etc', 'ps ax', 'date', 'mount', 'free', 'vmstat',
+                    'touch /tmp/tmpfile', 'rm /tmp/tmpfile', 'ls /tmp/tmpfile',
+                    'tail /etc/hosts', 'tail /etc/passwd', 'tail /etc/fstab',
+                    'cat /var/log/messages', 'cat /etc/group', 'cat /etc/mtab']
     
 #    jobdef = [('ping_gen', [(9, 0), (18, 0), (0, 5)], ['host', num]),
 #              ('http_gen', [(9, 15), (10, 0), (10, 0)], ['url', num]),
 #              ('smtp_gen', [(9, 0), (18, 0), (10, 0)], ['host', 'smtp_user', 'smtp_pass', 'mail_from', 'mail_to']),
 #              ('ftp_gen', [(9, 0), (18, 0), (60, 0)], ['host', 'user', 'pass', 'file_put', 'file_get', num, ssl]),
 #              ('copy_gen', [(9, 0), (18, 0), (0, 5)], ['src', dst]),
-#              ('ssh_gen', [(9, 0), (18, 0), (0, 5)], ['host', port, 'user', 'pass']),
+#              ('ssh_gen', [(9, 0), (18, 0), (0, 5)], ['host', port, 'user', 'pass', minutes, commands]),
 #              ('sftp_gen', [(9, 0), (18, 0), (0, 5)], ['host', port, 'user', 'pass', 'src', 'dst'])
 #              ]
     
