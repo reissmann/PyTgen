@@ -29,41 +29,41 @@ from config import Conf
 
 def create_jobs():
     logging.getLogger('main').info('Creating jobs')
-    
+
     jobs = []
     for next_job in Conf.jobdef:
         logging.getLogger('main').debug('creating %s', next_job)
-        
-        job = core.scheduler.job(action = eval(next_job[0])(next_job[2]),
-                                 interval = next_job[1][2],
-                                 start = next_job[1][0],
-                                 end = next_job[1][1])
+
+        job = core.scheduler.job(action=eval(next_job[0])(next_job[2]),
+                                 interval=next_job[1][2],
+                                 start=next_job[1][0],
+                                 end=next_job[1][1])
         jobs.append(job)
-        
+
     return jobs
 
 if __name__ == '__main__':
-    logging.basicConfig(level = Conf.loglevel,
-                        filename = Conf.logfile)
-    
-    runner = core.runner(maxthreads = Conf.maxthreads)
-    
+    logging.basicConfig(level=Conf.loglevel,
+                        filename=Conf.logfile)
+
+    runner = core.runner(maxthreads=Conf.maxthreads)
+
     jobs = create_jobs()
-    
-    scheduler = core.scheduler(jobs = jobs, 
-                               runner = runner)
-    
+
+    scheduler = core.scheduler(jobs=jobs,
+                               runner=runner)
+
     # Stop scheduler on exit
     def signal_int(signal, frame):
         logging.getLogger('main').info('Stopping scheduler')
         scheduler.stop()
-    
+
     signal.signal(signal.SIGINT, signal_int)
-    
+
     # Run the scheduler
     logging.getLogger('main').info('Starting scheduler')
     scheduler.start()
     scheduler.join(2 ** 31)
-    
+
     # Stop the runner
     runner.stop()

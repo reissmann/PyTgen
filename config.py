@@ -25,10 +25,10 @@ class Conf(object):
     # this setting depends on the number of jobs that have to be executed
     # simultaneously (not the number of jobs given in the config file). 
     maxthreads = 10
-    
+
     # set to "logging.INFO" or "logging.DEBUG"
     loglevel = logging.INFO
-    
+
     # logfile location (None = log to console)
     logfile = "/tmp/pytgen.log"
 
@@ -37,7 +37,7 @@ class Conf(object):
                     'touch /tmp/tmpfile', 'rm /tmp/tmpfile', 'ls /tmp/tmpfile',
                     'tail /etc/hosts', 'tail /etc/passwd', 'tail /etc/fstab',
                     'cat /var/log/messages', 'cat /etc/group', 'cat /etc/mtab']
-    
+
     # job configuration (see config.example.py)
     jobdef = [# ping
               #('ping_gen', [(9, 0), (18, 0), (60, 0)], ['127.0.0.1', 4]),
