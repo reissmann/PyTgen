@@ -1,4 +1,4 @@
 Packages needed:
 	ping
-	paramiko
-	
+	paramiko	on systems that want to use the ssh or sftp generator
+	pywin32		on windows only

@@ -31,7 +31,6 @@ import urllib2
 import smtplib
 import ftplib
 import shutil
-import paramiko
 
 
 class ping_gen():
@@ -222,6 +221,8 @@ class ssh_gen():
         self._cmds = params[5]
 
     def __call__(self):
+        import paramiko
+        
         logging.getLogger(self.__generator__).info("Connecting to %s", self._host)
         
         endtime = datetime.datetime.now() + datetime.timedelta(minutes = self._time * 2 * random.random())
@@ -269,6 +270,8 @@ class sftp_gen():
         self._dst = params[5]
 
     def __call__(self):
+        import paramiko
+
         logging.getLogger(self.__generator__).info("Connecting to %s", self._host)
         
         client = paramiko.SSHClient()
