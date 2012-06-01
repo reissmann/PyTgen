@@ -225,23 +225,22 @@ class ssh_gen():
         
         logging.getLogger(self.__generator__).info("Connecting to %s", self._host)
         
-        endtime = datetime.datetime.now() + datetime.timedelta(minutes = self._time * 2 * random.random())
+        endtime = datetime.datetime.now() + datetime.timedelta(minutes=self._time * 2 * random.random())
         
         client = paramiko.SSHClient()
         client.load_system_host_keys()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         
         try:
-            client.connect(self._host, 
-                           self._port, 
-                           self._user, 
+            client.connect(self._host,
+                           self._port,
+                           self._user,
                            self._pass)
             
         except:
             logging.getLogger(self.__generator__).debug("Error connecting to %s", self._host)
             
         else:
-            # simulate some stupid work until requested connection time is over
             while datetime.datetime.now() < endtime:
                 if len(self._cmds) is not 0:
                     self._send_cmds(client)
@@ -277,14 +276,14 @@ class sftp_gen():
         client = paramiko.SSHClient()
         client.load_system_host_keys()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        client.connect(self._host, 
-                       self._port, 
-                       self._user, 
+        client.connect(self._host,
+                       self._port,
+                       self._user,
                        self._pass)
         
         sftp = paramiko.SFTPClient(client.get_transport())
         #sftp.get(self._dst, self._src, self._getfile)
-        #sftp.put(self._src, self._dst)
+        sftp.put(self._src, self._dst)
         
         client.close()
         
