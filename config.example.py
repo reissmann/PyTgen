@@ -22,7 +22,7 @@ along with PyTgen. If not, see <http://www.gnu.org/licenses/>.
 #    jobdef = [('ping_gen', [(h, m), (h, m), (m, s)], ['host', count]),
 #              ('http_gen', [(h, m), (h, m), (m, s)], ['url', count]),
 #              ('smtp_gen', [(h, m), (h, m), (m, s)], ['host', 'smtp_user', 'smtp_pass', 'mail_from', 'mail_to']),
-#              ('ftp_gen', [(h, m), (h, m), (m, s)], ['host', 'user', 'pass', 'file_put', 'file_get', num, ssl]),
+#              ('ftp_gen', [(h, m), (h, m), (m, s)], ['host', 'user', 'pass', 'file_put', 'file_get', count, ssl]),
 #              ('copy_gen', [(h, m), (h, m), (m, s)], ['src', dst]),
 #              ('ssh_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', minutes, commands]),
 #              ('sftp_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', 'src', 'dst'])
