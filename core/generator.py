@@ -24,6 +24,7 @@ import time
 import base64
 import string
 import os
+import sys
 
 import ping
 import urllib2
@@ -287,3 +288,25 @@ class sftp_gen():
     def _getfile(self,
                   file):
         pass
+    
+class reboot_gen():
+    __generator__ = "reboot"
+    
+    def __init__(self,
+                 params):
+        self._platform = sys.platform
+
+    def __call__(self):
+        if self._platform == "linux2":
+            logging.getLogger(self.__generator__).info("Rebooting %s ...", self._platform)
+            
+            os.system('/sbin/shutdown -r now')
+            
+        elif self._platform == "win32":
+            logging.getLogger(self.__generator__).info("Rebooting %s ...", self._platform)
+            
+            import win32api
+            win32api.InitiateSystemShutdown()
+            
+        else:
+            logging.getLogger(self.__generator__).info("Unknown Operating System: %s. Canceling reboot ...", self._platform)
