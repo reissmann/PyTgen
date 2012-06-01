@@ -49,10 +49,10 @@ class Conf(object):
               # smtp
               #('smtp_gen', [(9, 0), (18, 0), (10, 0)], ['host', 'smtp_user', 'smtp_pass', 'mail_from', 'mail_to']),
               # ftp
-              #('ftp_gen', [(9, 0), (18, 0), (10, 0)], ['127.0.0.1', 'lain', 'lain', 'small.bin', 'small.bin', 2, False]),
-              #('ftp_gen', [(9, 0), (18, 0), (10, 0)], ['127.0.0.1', 'lain', 'lain', 'small.bin', 'small.bin', 2, True]),
+              #('ftp_gen', [(9, 0), (18, 0), (10, 0)], ['127.0.0.1', 'user', 'pass', 'small.bin', 'small.bin', 2, False]),
+              #('ftp_gen', [(9, 0), (18, 0), (10, 0)], ['127.0.0.1', 'user', 'pass', 'small.bin', 'small.bin', 2, True]),
               #
               #('copy_gen', [(9, 0), (18, 0), (0, 10)], ['/home/reissmann/Dev/PyTgen/files/small.bin', '/tmp']),
               #('ssh_gen', [(9, 0), (18, 0), (0, 15)], ['127.0.0.1', 'xx', 'xx']),
-              ('reboot_gen', [(9, 0), (18, 0), (0, 10)], [])
+              #('reboot_gen', [(9, 0), (18, 0), (0, 10)], [])
               ]
