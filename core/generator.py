@@ -46,7 +46,7 @@ class ping_gen():
 
     def __call__(self):
         logging.getLogger(self.__generator__).info("Sending %s PING packets to %s ", self._num, self._host)
-        
+
         for _ in range(self._num):
             if ping.do_one(dest_addr=self._host,
                            timeout=5,
@@ -54,7 +54,7 @@ class ping_gen():
                 logging.getLogger(self.__generator__).debug("Got PONG from %s", self._host)
             else:
                 logging.getLogger(self.__generator__).debug("No response from %s", self._host)
-                
+
             time.sleep(1)
 
 class http_gen():
@@ -148,46 +148,59 @@ class ftp_gen():
     def __call__(self):
         ftp = None
         if self._tls == True:
-            logging.getLogger(self.__generator__).info("Connecting to ftps://%s", self._host)
+            logging.getLogger(self.__generator__).info("Connecting to ftps://%s",
+                                                       self._host)
             try:
                 ftp = ftplib.FTP_TLS(self._host,
                                      self._user,
                                      self._pass)
                 ftp.prot_p()
             except:
-                logging.getLogger(self.__generator__).debug("Error connecting to ftps://%s", self._host)
+                logging.getLogger(self.__generator__).debug("Error connecting to ftps://%s",
+                                                            self._host)
 
         else:
-            logging.getLogger(self.__generator__).info("Connecting to ftp://%s", self._host)
+            logging.getLogger(self.__generator__).info("Connecting to ftp://%s",
+                                                       self._host)
             try:
                 ftp = ftplib.FTP(self._host,
                                  self._user,
                                  self._pass)
             except:
-                logging.getLogger(self.__generator__).debug("Error connecting to ftp://%s", self._host)
+                logging.getLogger(self.__generator__).debug("Error connecting to ftp://%s",
+                                                            self._host)
 
         if ftp is not None:
             ftp.retrlines('LIST')
 
             for _ in xrange(self._num):
-                if self._put is not None:
-                    logging.getLogger(self.__generator__).debug("Uploading %s", self._put)
-                    f = open("files/" + self._put, 'r')
-                    ftp.storbinary("STOR " + self._put, f)
+                if len(self._put) is not 0:
+                    ressource = self._put[random.randint(0, (len(self._put) - 1))]
+                    (path, filename) = os.path.split(ressource)
+
+                    logging.getLogger(self.__generator__).debug("Uploading %s",
+                                                                ressource)
+
+                    f = open(ressource, 'r')
+                    ftp.storbinary("STOR " + filename, f)
                     f.close()
 
                 time.sleep(5 * random.random())
 
-                if self._get is not None:
-                    logging.getLogger(self.__generator__).debug("Downloading %s", self._get)
-                    ftp.retrbinary('RETR ' + self._get, self._getfile)
+                if len(self._get) is not 0:
+                    ressource = self._get[random.randint(0, (len(self._get) - 1))]
+
+                    logging.getLogger(self.__generator__).debug("Downloading %s",
+                                                                ressource)
+
+                    ftp.retrbinary('RETR ' + ressource, self._getfile)
 
                 time.sleep(5 * random.random())
 
             ftp.quit()
 
     def _getfile(self,
-                  file):
+                 ressource):
         pass
 
 class copy_gen():

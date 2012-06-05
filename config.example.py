@@ -22,7 +22,7 @@ along with PyTgen. If not, see <http://www.gnu.org/licenses/>.
 #    jobdef = [('ping_gen', [(h, m), (h, m), (m, s)], ['host', count]),
 #              ('http_gen', [(h, m), (h, m), (m, s)], ['url', count]),
 #              ('smtp_gen', [(h, m), (h, m), (m, s)], ['host', 'smtp_user', 'smtp_pass', 'mail_from', 'mail_to']),
-#              ('ftp_gen', [(h, m), (h, m), (m, s)], ['host', 'user', 'pass', 'file_put', 'file_get', count, ssl]),
+#              ('ftp_gen', [(h, m), (h, m), (m, s)], ['host', 'user', 'pass', [put], [get], count, ssl]),
 #              ('copy_gen', [(h, m), (h, m), (m, s)], ['src', dst]),
 #              ('ssh_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', minutes, commands]),
 #              ('sftp_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', 'src', 'dst']),
@@ -53,11 +53,11 @@ along with PyTgen. If not, see <http://www.gnu.org/licenses/>.
 #   - mail_to   recipient email adress
 #
 # ftp_gen
-#    - host     d
+#    - host     host or ip address to connect to
 #    - user     username to authenticate with
 #    - pass     password to authenticate with
-#    - file_put file to upload to the server (or None)
-#    - file_get file to download from server (or None)
+#    - file_put array of files to upload to the server ([] to skip upload)
+#    - file_get array of files to download from server ([] to skip download)
 #    - count    number of downloads/uploads of the files
 #    - ssl      True to connect with ssl, otherwise False
 #

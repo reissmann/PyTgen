@@ -38,6 +38,13 @@ class Conf(object):
                     'tail /etc/hosts', 'tail /etc/passwd', 'tail /etc/fstab',
                     'cat /var/log/messages', 'cat /etc/group', 'cat /etc/mtab']
 
+    # a number of files that will randomly be used for ftp upload
+    ftp_put = ['/tmp/pytgen/file1', '/tmp/pytgen/file2', '/tmp/pytgen/file3']
+
+    # a number of files that will randomly be used for ftp download
+    ftp_get = ['file1', 'file2', 'file3']
+
+
     # job configuration (see config.example.py)
     jobdef = [# ping
               #('ping_gen', [(9, 0), (18, 0), (60, 0)], ['127.0.0.1', 4]),
@@ -49,8 +56,8 @@ class Conf(object):
               # smtp
               #('smtp_gen', [(9, 0), (18, 0), (10, 0)], ['host', 'smtp_user', 'smtp_pass', 'mail_from', 'mail_to']),
               # ftp
-              #('ftp_gen', [(9, 0), (18, 0), (10, 0)], ['127.0.0.1', 'user', 'pass', 'small.bin', 'small.bin', 2, False]),
-              #('ftp_gen', [(9, 0), (18, 0), (10, 0)], ['127.0.0.1', 'user', 'pass', 'small.bin', 'small.bin', 2, True]),
+              #('ftp_gen', [(9, 0), (18, 0), (1, 0)], ['127.0.0.1', 'user', 'pass', [put], [get], 10, False]),
+              #('ftp_gen', [(9, 0), (18, 0), (10, 0)], ['127.0.0.1', 'user', 'pass', [put], [], 2, True]),
               #
               #('copy_gen', [(9, 0), (18, 0), (0, 10)], ['/home/reissmann/Dev/PyTgen/files/small.bin', '/tmp']),
               #('ssh_gen', [(9, 0), (18, 0), (0, 15)], ['127.0.0.1', 'xx', 'xx']),
