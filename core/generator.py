@@ -45,12 +45,17 @@ class ping_gen():
         self._num = params[1]
 
     def __call__(self):
+        logging.getLogger(self.__generator__).info("Sending %s PING packets to %s ", self._num, self._host)
+        
         for _ in range(self._num):
-            logging.getLogger(self.__generator__).info("Pinging: %s", self._host)
             if ping.do_one(dest_addr=self._host,
                            timeout=5,
                            psize=64) is not None:
                 logging.getLogger(self.__generator__).debug("Got PONG from %s", self._host)
+            else:
+                logging.getLogger(self.__generator__).debug("No response from %s", self._host)
+                
+            time.sleep(1)
 
 class http_gen():
     '''
