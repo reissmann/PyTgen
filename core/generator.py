@@ -290,6 +290,12 @@ class ssh_gen():
             time.sleep(5 * random.random())
 
 class sftp_gen():
+    '''
+    sftp generator.
+    this generator will connect to a host using ssh subsystem sftp. It then 
+    starts sending uploading and downloading files provided via the _get and
+    _put parameters.
+    '''
     __generator__ = "sftp"
 
     def __init__(self,
@@ -298,31 +304,45 @@ class sftp_gen():
         self._port = params[1]
         self._user = params[2]
         self._pass = params[3]
-        self._src = params[4]
-        self._dst = params[5]
+        self._put = params[4]
+        self._get = params[5]
 
     def __call__(self):
-        import paramiko
-
         logging.getLogger(self.__generator__).info("Connecting to %s", self._host)
 
-        client = paramiko.SSHClient()
-        client.load_system_host_keys()
-        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        client.connect(self._host,
-                       self._port,
-                       self._user,
-                       self._pass)
+        try:
+            transport = paramiko.Transport((self._host,
+                                            self._port))
+            transport.connect(username=self._user,
+                              password=self._pass)
 
-        sftp = paramiko.SFTPClient(client.get_transport())
-        #sftp.get(self._dst, self._src, self._getfile)
-        sftp.put(self._src, self._dst)
+            sftp = paramiko.SFTPClient.from_transport(transport)
 
-        client.close()
+        except:
+            logging.getLogger(self.__generator__).debug("Error connecting to %s",
+                                                        self._host)
 
-    def _getfile(self,
-                  file):
-        pass
+        else:
+            time.sleep(2 * random.random())
+
+            while len(self._put) is not 0:
+                (src, dst) = self._put.pop(len(self._put) - 1)
+
+                logging.getLogger(self.__generator__).debug("Uploading %s to %s",
+                                                            src, dst)
+                sftp.put(src, dst)
+
+            time.sleep(5 * random.random())
+
+            while len(self._get) is not 0:
+                (src, dst) = self._get.pop(len(self._get) - 1)
+
+                logging.getLogger(self.__generator__).debug("Downloading %s to %s",
+                                                            src, dst)
+                sftp.get(src, dst)
+
+            sftp.close()
+            transport.close()
 
 class reboot_gen():
     '''

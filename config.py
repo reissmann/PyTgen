@@ -44,6 +44,17 @@ class Conf(object):
     # a number of files that will randomly be used for ftp download
     ftp_get = ['file1', 'file2', 'file3']
 
+    # array of source-destination tuples for sftp upload
+    sftp_put = [('/tmp/pytgen/file1', '/tmp/bla1'),
+                ('/tmp/pytgen/file2', '/tmp/bla2'),
+                ('/tmp/pytgen/file3', '/tmp/bla3')
+                ]
+
+    # array of source-destination tuples for sftp download
+    sftp_get = [('/tmp/bla1', '/tmp/blubb1'),
+                ('/tmp/bla2', '/tmp/blubb2'),
+                ('/tmp/bla3', '/tmp/blubb3')
+                ]
 
     # job configuration (see config.example.py)
     jobdef = [# ping

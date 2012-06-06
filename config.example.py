@@ -25,7 +25,7 @@ along with PyTgen. If not, see <http://www.gnu.org/licenses/>.
 #              ('ftp_gen', [(h, m), (h, m), (m, s)], ['host', 'user', 'pass', [put], [get], count, ssl]),
 #              ('copy_gen', [(h, m), (h, m), (m, s)], ['src', dst]),
 #              ('ssh_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', minutes, commands]),
-#              ('sftp_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', 'src', 'dst']),
+#              ('sftp_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', [put], [get]),
 #              ('reboot_gen', [(h, m), (h, m), (m, s)], [])
 #              ]
 
