@@ -31,6 +31,7 @@ import urllib2
 import smtplib
 import ftplib
 import shutil
+import paramiko
 
 
 class ping_gen():
@@ -227,6 +228,13 @@ class copy_gen():
             shutil.copy2(self._src, self._dst)
 
 class ssh_gen():
+    '''
+    ssh generator.
+    this generator will connect to a host using ssh. It then starts sending 
+    commands to the host. The connection will be kept open until the connection
+    time provided in the config is over. If the commands array is empty, the
+    connection will idle until connection time is over.
+    '''
     __generator__ = "ssh"
 
     def __init__(self,
@@ -239,11 +247,11 @@ class ssh_gen():
         self._cmds = params[5]
 
     def __call__(self):
-        import paramiko
+        logging.getLogger(self.__generator__).info("Connecting to %s",
+                                                   self._host)
 
-        logging.getLogger(self.__generator__).info("Connecting to %s", self._host)
-
-        endtime = datetime.datetime.now() + datetime.timedelta(minutes=self._time * 2 * random.random())
+        realmin = self._time * 2 * random.random()
+        endtime = datetime.datetime.now() + datetime.timedelta(minutes=realmin)
 
         client = paramiko.SSHClient()
         client.load_system_host_keys()
@@ -256,23 +264,30 @@ class ssh_gen():
                            self._pass)
 
         except:
-            logging.getLogger(self.__generator__).debug("Error connecting to %s", self._host)
+            logging.getLogger(self.__generator__).debug("Error connecting to %s",
+                                                        self._host)
 
         else:
             while datetime.datetime.now() < endtime:
                 if len(self._cmds) is not 0:
                     self._send_cmds(client)
+
+                else:
+                    time.sleep(realmin)
+                    break
+
                 time.sleep(30 * random.random())
 
             client.close()
 
     def _send_cmds(self,
                    client):
-        client.exec_command(self._cmds[random.randint(0, (len(self._cmds) - 1))])
-        time.sleep(5 * random.random())
-        client.exec_command(self._cmds[random.randint(0, (len(self._cmds) - 1))])
-        time.sleep(5 * random.random())
-        client.exec_command(self._cmds[random.randint(0, (len(self._cmds) - 1))])
+        for _ in xrange(3):
+            cmd = self._cmds[random.randint(0, (len(self._cmds) - 1))]
+            logging.getLogger(self.__generator__).debug("Sending command: %s",
+                                                        cmd)
+            client.exec_command(cmd)
+            time.sleep(5 * random.random())
 
 class sftp_gen():
     __generator__ = "sftp"
