@@ -310,6 +310,12 @@ class sftp_gen():
         pass
 
 class reboot_gen():
+    '''
+    reboot generator.
+    this generator will initiate a system reboot on linux or windows machines.
+    it is used to simulate system startups including dhcp requests, network
+    filesystem mounts, ntp requests and so on.
+    '''
     __generator__ = "reboot"
 
     def __init__(self,
@@ -318,15 +324,25 @@ class reboot_gen():
 
     def __call__(self):
         if self._platform == "linux2":
-            logging.getLogger(self.__generator__).info("Rebooting %s ...", self._platform)
+            logging.getLogger(self.__generator__).info("Rebooting %s ...",
+                                                       self._platform)
 
-            os.system('/sbin/shutdown -r now')
+            try:
+                os.system('/sbin/shutdown -r now')
+
+            except:
+                logging.getLogger(self.__generator__).debug("Error calling shutdown")
 
         elif self._platform == "win32":
-            logging.getLogger(self.__generator__).info("Rebooting %s ...", self._platform)
+            logging.getLogger(self.__generator__).info("Rebooting %s ...",
+                                                       self._platform)
 
-            import win32api
-            win32api.InitiateSystemShutdown()
+            try:
+                os.system('shutdown -r')
+
+            except:
+                logging.getLogger(self.__generator__).debug("Error calling shutdown")
 
         else:
-            logging.getLogger(self.__generator__).info("Unknown Operating System: %s. Canceling reboot ...", self._platform)
+            logging.getLogger(self.__generator__).info("Unknown Operating System: %s",
+                                                       self._platform)
