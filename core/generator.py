@@ -247,6 +247,7 @@ class ssh_gen():
         self._cmds = params[5]
 
     def __call__(self):
+        logging.getLogger("paramiko").setLevel(logging.INFO)
         logging.getLogger(self.__generator__).info("Connecting to %s",
                                                    self._host)
 
@@ -308,6 +309,7 @@ class sftp_gen():
         self._get = params[5]
 
     def __call__(self):
+        logging.getLogger("paramiko").setLevel(logging.INFO)
         logging.getLogger(self.__generator__).info("Connecting to %s", self._host)
 
         try:
