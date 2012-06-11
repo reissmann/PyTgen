@@ -37,6 +37,7 @@ import paramiko
 class ping_gen():
     '''
     ping generator
+    this generator sends ping to a destination
     '''
     __generator__ = 'ping'
 
@@ -61,6 +62,7 @@ class ping_gen():
 class http_gen():
     '''
     http and https generator
+    this generator will request websites from a webserver.
     '''
     __generator__ = 'http'
 
@@ -84,6 +86,8 @@ class http_gen():
 class smtp_gen():
     '''
     smtp generator
+    this generator will connect to an smtp server and send email with random
+    content to a destination address.
     '''
     __generator__ = "smtp"
 
@@ -133,6 +137,9 @@ class smtp_gen():
 class ftp_gen():
     '''
     ftp and ftp_tls generator
+    this generator will connect to a host using ftp. It then starts uploading 
+    and downloading files. Files to be put or retrieved are specified as an
+    array. An empty array will skip upload or download.
     '''
     __generator__ = 'ftp'
 
@@ -205,6 +212,12 @@ class ftp_gen():
         pass
 
 class copy_gen():
+    '''
+    copy generator.
+    this generator will copy files and directories from a source to a 
+    destination. it can be used to generate traffic on network filesystems
+    like nfs or smb.
+    '''
     __generator__ = "copy"
 
     def __init__(self,
