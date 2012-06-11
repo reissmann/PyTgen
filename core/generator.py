@@ -375,7 +375,7 @@ class reboot_gen():
                                                        self._platform)
 
             try:
-                os.system('shutdown -r')
+                os.system('shutdown -r -t 1')
 
             except:
                 logging.getLogger(self.__generator__).debug("Error calling shutdown")
