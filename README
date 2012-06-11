@@ -5,11 +5,14 @@ configuration file lets you define types of traffic that will be generated
 periodically in a given timeframe.
 
 Supported types of traffic are:
-  ping	-	Ping times to some location
-  http	-	Fetch a website
-  ftp	-	Upload and download a file
-  smtp	-	Send an email of random size
-  copy	-	Copy a file or directory to or from a nfs or smb share
+  ping		-	Ping times to some location
+  http(s)	-	Fetch a website
+  ftp(s)	-	Upload and download a file
+  smtp		-	Send an email of random size
+  copy		-	Copy a file or directory to or from a nfs or smb share
+  ssh		-	Open an ssh connection and issue commands
+  sftp		-	Transfer files via sftp
+  reboot	-	Reboot the local machine
 
 Each traffic definition from the config file defines a job, that is then 
 periodically distributed to a number of worker threads by a scheduler. The
@@ -23,3 +26,6 @@ project, where we needed to generate and collect "normal" network traffic.
 As we were not interested in packet payloads but only header information, 
 there may be many situations, where the generated traffic will not match the 
 look of actual network traffic.
+
+See config.example.py for a more detailled description of the generators as
+well as configuration examples.

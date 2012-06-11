@@ -30,7 +30,7 @@ class Conf(object):
     loglevel = logging.INFO
 
     # logfile location (None = log to console)
-    logfile = "/tmp/pytgen.log"
+    logfile = "pytgen.log"
 
     # ssh commands that will be randomly executed by the ssh traffic generator
     ssh_commands = ['ls', 'cd', 'cd /etc', 'ps ax', 'date', 'mount', 'free', 'vmstat',
@@ -39,38 +39,49 @@ class Conf(object):
                     'cat /var/log/messages', 'cat /etc/group', 'cat /etc/mtab']
 
     # a number of files that will randomly be used for ftp upload
-    ftp_put = ['/tmp/pytgen/file1', '/tmp/pytgen/file2', '/tmp/pytgen/file3']
+    ftp_put = ['file1', 'file2', 'file3']
 
     # a number of files that will randomly be used for ftp download
     ftp_get = ['file1', 'file2', 'file3']
 
     # array of source-destination tuples for sftp upload
-    sftp_put = [('/tmp/pytgen/file1', '/tmp/bla1'),
-                ('/tmp/pytgen/file2', '/tmp/bla2'),
-                ('/tmp/pytgen/file3', '/tmp/bla3')
+    sftp_put = [('file1', 'file1'),
+                ('file2', 'file2'),
+                ('file3', 'file3')
                 ]
 
     # array of source-destination tuples for sftp download
-    sftp_get = [('/tmp/bla1', '/tmp/blubb1'),
-                ('/tmp/bla2', '/tmp/blubb2'),
-                ('/tmp/bla3', '/tmp/blubb3')
+    sftp_get = [('file1', 'file1'),
+                ('file2', 'file2'),
+                ('file3', 'file3')
                 ]
 
     # job configuration (see config.example.py)
     jobdef = [# ping
-              #('ping_gen', [(9, 0), (18, 0), (60, 0)], ['127.0.0.1', 4]),
+              #('ping_gen', [(9, 0), (18, 0), (10, 0)], ['127.0.0.1', 1]),
               #('ping_gen', [(16, 0), (16, 30), (5, 0)], ['127.0.0.1', 4]),
+              #
               # http
-              #('http_gen', [(8, 50), (16, 30), (10, 0)], ['127.0.0.1', 1]),
-              #('http_gen', [(9, 15), (10, 15), (10, 0)], ['127.0.0.1', 5]),
+              #('http_gen', [(8, 50), (16, 30), (10, 0)], ['http://127.0.0.1', 1]),
               #('http_gen', [(9, 15), (17, 15), (10, 0)], ['https://www.google.com', 2]),
+              #
               # smtp
               #('smtp_gen', [(9, 0), (18, 0), (10, 0)], ['host', 'smtp_user', 'smtp_pass', 'mail_from', 'mail_to']),
-              # ftp
-              #('ftp_gen', [(9, 0), (18, 0), (1, 0)], ['127.0.0.1', 'user', 'pass', [put], [get], 10, False]),
-              #('ftp_gen', [(9, 0), (18, 0), (10, 0)], ['127.0.0.1', 'user', 'pass', [put], [], 2, True]),
               #
-              #('copy_gen', [(9, 0), (18, 0), (0, 10)], ['/home/reissmann/Dev/PyTgen/files/small.bin', '/tmp']),
-              #('ssh_gen', [(9, 0), (18, 0), (0, 15)], ['127.0.0.1', 'xx', 'xx']),
+              # ftp
+              #('ftp_gen', [(9, 0), (18, 0), (1, 0)], ['127.0.0.1', 'user', 'pass', ftp_put, ftp_get, 10, False]),
+              #('ftp_gen', [(9, 0), (18, 0), (0, 10)], ['127.0.0.1', 'user', 'pass', ftp_put, [], 2, True]),
+              #
+              # nfs / smb
+              #('copy_gen', [(9, 0), (18, 0), (0, 10)], ['file1', 'file2']),
+              #
+              # ssh
+              #('ssh_gen', [(9, 0), (18, 0), (120, 0)], ['127.0.0.1', 22, 'user', 'pass', 5, ssh_commands]),
+              #('ssh_gen', [(9, 0), (18, 0), (240, 0)], ['127.0.0.1', 22, 'user', 'pass', 30, []]),
+              #
+              # sftp
+              #('sftp_gen', [(17, 0), (18, 0), (60, 0)], ['127.0.0.1', 22, 'user', 'pass', sftp_put, sftp_get]),
+              #
+              # reboot
               #('reboot_gen', [(9, 0), (18, 0), (0, 10)], [])
               ]
