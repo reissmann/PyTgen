@@ -29,3 +29,7 @@ look of actual network traffic.
 
 See config.example.py for a more detailled description of the generators as
 well as configuration examples.
+
+If you have setuptools installed, you can install PyTgen using this command:
+	
+	python setup.py install

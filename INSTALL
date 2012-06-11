@@ -1,4 +1,6 @@
 Packages needed:
-	ping
-	paramiko	on systems that want to use the ssh or sftp generator
-	pywin32		on windows only
+	setuptools	>= 0.6	- needed for setup.py
+	ping		>= 0.2	- needed to ping
+	paramiko	>= 1.7	- needed for ssh/sftp
+	pycrypt		>= 2.3	- needed by paramiko
+	
