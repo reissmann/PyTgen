@@ -115,12 +115,15 @@ class smtp_gen():
             sender = smtplib.SMTP(self._host, 25)
 
             try:
+                logging.getLogger(self.__generator__).debug("Using TLS")
                 sender.starttls()
+
             except:
                 pass
 
             try:
                 sender.login(self._user, self._pass)
+
             except smtplib.SMTPAuthenticationError:
                 sender.docmd("AUTH LOGIN", base64.b64encode(self._user))
                 sender.docmd(base64.b64encode(self._pass), "")

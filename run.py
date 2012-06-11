@@ -32,7 +32,7 @@ def create_jobs():
 
     jobs = []
     for next_job in Conf.jobdef:
-        logging.getLogger('main').debug('creating %s', next_job)
+        logging.getLogger('main').info('creating %s', next_job)
 
         job = core.scheduler.job(name=next_job[0],
                                  action=eval(next_job[0])(next_job[2]),

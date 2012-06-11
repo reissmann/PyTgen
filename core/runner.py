@@ -83,7 +83,7 @@ class runner(object):
         self.__queue = Queue.Queue()
         self.__maxthreads = maxthreads
 
-        logging.getLogger('runner').info('creating runner with 3 threads')
+        logging.getLogger('runner').info('creating runner with 3 initial threads')
 
         self.__workers = []
         for i in xrange(0, 3):
