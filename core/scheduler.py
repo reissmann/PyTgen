@@ -26,7 +26,8 @@ import logging
 
 class scheduler(threading.Thread):
     class job(object):
-        def __init__(self, action, interval, start, end):
+        def __init__(self, name, action, interval, start, end):
+            self.__name = name
             self.__action = action
             self.__interval = interval
             self.__start = start
@@ -53,7 +54,7 @@ class scheduler(threading.Thread):
             else:
                 # enqueue job until next start time
                 self.__exec_time = start + datetime.timedelta(1)
-                logging.getLogger(__name__).info("enqueueing until %s" % self.__exec_time)
+                logging.getLogger(__name__).info("enqueueing %s until %s", self.__name, self.__exec_time)
                 return False
 
         def __lt__(self, other):

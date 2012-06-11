@@ -34,7 +34,8 @@ def create_jobs():
     for next_job in Conf.jobdef:
         logging.getLogger('main').debug('creating %s', next_job)
 
-        job = core.scheduler.job(action=eval(next_job[0])(next_job[2]),
+        job = core.scheduler.job(name=next_job[0],
+                                 action=eval(next_job[0])(next_job[2]),
                                  interval=next_job[1][2],
                                  start=next_job[1][0],
                                  end=next_job[1][1])
