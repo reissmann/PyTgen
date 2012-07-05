@@ -238,10 +238,16 @@ class copy_gen():
                 logging.getLogger(self.__generator__).debug("Destination %s exists. Deleting it.", dst)
                 shutil.rmtree(dst)
 
-            shutil.copytree(self._src, dst)
+            try:
+                shutil.copytree(self._src, dst)
+            except:
+                logging.getLogger(self.__generator__).debug("Error copying %s to %s", self._src, dst)
 
         else:
-            shutil.copy2(self._src, self._dst)
+            try:
+                shutil.copy2(self._src, self._dst)
+            except:
+                logging.getLogger(self.__generator__).debug("Error copying %s to %s", self._src, self._dst)
 
 class ssh_gen():
     '''
