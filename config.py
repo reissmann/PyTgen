@@ -69,7 +69,7 @@ class Conf(object):
               #('smtp_gen', [(9, 0), (18, 0), (10, 0)], ['host', 'smtp_user', 'smtp_pass', 'mail_from', 'mail_to']),
               #
               # ftp
-              #('ftp_gen', [(9, 0), (18, 0), (1, 0)], ['127.0.0.1', 'user', 'pass', ftp_put, ftp_get, 10, False]),
+              #('ftp_gen', [(9, 0), (18, 0), (1, 0)], ['127.0.0.1', 'user', 'pass', ftp_put, ftp_get, 10, False, 5]),
               #('ftp_gen', [(9, 0), (18, 0), (0, 10)], ['127.0.0.1', 'user', 'pass', ftp_put, [], 2, True]),
               #
               # nfs / smb

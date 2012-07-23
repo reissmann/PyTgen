@@ -162,9 +162,9 @@ class smtp_gen():
 class ftp_gen():
     '''
     ftp and ftp_tls generator
-    this generator will connect to a host using ftp. It then starts uploading 
-    and downloading files. Files to be put or retrieved are specified as an
-    array. An empty array will skip upload or download.
+    connect to a host using ftp and start uploading and downloading files. 
+    The files to be put or retrieved are specified in an array and are
+    randomly choosen. An empty array will skip upload or download.
     '''
     __generator__ = 'ftp'
 
@@ -177,6 +177,10 @@ class ftp_gen():
         self._get = params[4]
         self._num = params[5]
         self._tls = params[6]
+        self._multiplier = 5
+
+        if len(params) == 7:
+            self._multiplier = params[6]
 
     def __call__(self):
         ftp = None
@@ -218,7 +222,7 @@ class ftp_gen():
                     ftp.storbinary("STOR " + filename, f)
                     f.close()
 
-                time.sleep(5 * random.random())
+                time.sleep(self._multiplier * random.random())
 
                 if len(self._get) is not 0:
                     ressource = self._get[random.randint(0, (len(self._get) - 1))]
@@ -228,7 +232,7 @@ class ftp_gen():
 
                     ftp.retrbinary('RETR ' + ressource, self._getfile)
 
-                time.sleep(5 * random.random())
+                time.sleep(self._multiplier * random.random())
 
             ftp.quit()
 

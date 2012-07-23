@@ -22,7 +22,7 @@ along with PyTgen. If not, see <http://www.gnu.org/licenses/>.
 #    jobdef = [('ping_gen', [(h, m), (h, m), (m, s)], ['host', count [, delay]]),
 #              ('http_gen', [(h, m), (h, m), (m, s)], ['url', count [, delay]]),
 #              ('smtp_gen', [(h, m), (h, m), (m, s)], ['host', 'smtp_user', 'smtp_pass', 'mail_from', 'mail_to']),
-#              ('ftp_gen', [(h, m), (h, m), (m, s)], ['host', 'user', 'pass', [put], [get], count, ssl]),
+#              ('ftp_gen', [(h, m), (h, m), (m, s)], ['host', 'user', 'pass', [put], [get], count, ssl [, delay]]),
 #              ('copy_gen', [(h, m), (h, m), (m, s)], ['src', dst]),
 #              ('ssh_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', minutes, commands]),
 #              ('sftp_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', [put], [get]),
@@ -62,6 +62,7 @@ along with PyTgen. If not, see <http://www.gnu.org/licenses/>.
 #    - file_get array of files to download from server ([] to skip download)
 #    - count    number of downloads/uploads of the files
 #    - ssl      True to connect with ssl, otherwise False
+#    - [delay]  multiplier to the random delay between requests in seconds (optional, default = 5)
 #
 # copy_gen
 #    - src      file or directory to copy
