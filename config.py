@@ -73,6 +73,7 @@ class Conf(object):
               #('ftp_gen', [(9, 0), (18, 0), (0, 10)], ['127.0.0.1', 'user', 'pass', ftp_put, [], 2, True]),
               #
               # nfs / smb
+              #('copy_gen', [(9, 0), (18, 0), (0, 10)], [None, 'file1', 50]),
               #('copy_gen', [(9, 0), (18, 0), (0, 10)], ['file1', 'file2']),
               #
               # ssh

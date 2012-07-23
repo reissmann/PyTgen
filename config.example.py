@@ -65,8 +65,9 @@ along with PyTgen. If not, see <http://www.gnu.org/licenses/>.
 #    - [delay]  multiplier to the random delay between requests in seconds (optional, default = 5)
 #
 # copy_gen
-#    - src      file or directory to copy
+#    - src      file or directory to copy ("None" to generate a file with random content)
 #    - dst      destination to copy to
+#    - size     the size of a randomly generated file (used in combination with src = None)
 #
 # ssh_gen
 #    - host     host or ip to connect to

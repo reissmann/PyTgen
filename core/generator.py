@@ -243,9 +243,11 @@ class ftp_gen():
 class copy_gen():
     '''
     copy generator.
-    this generator will copy files and directories from a source to a 
-    destination. it can be used to generate traffic on network filesystems
-    like nfs or smb.
+    copy files or directories from a source to a destination. this generator
+    can be used to generate traffic on network filesystems like nfs or smb.
+    A random source file will be generated if the source parameter is set to
+    "None". The size of the generated source file can be controlled by an 
+    optional size parameter (default = 8192 byte)
     '''
     __generator__ = "copy"
 
@@ -253,27 +255,63 @@ class copy_gen():
                  params):
         self._src = params[0]
         self._dst = params[1]
+        self._size = 8192
+
+        if len(params) == 3:
+            self._size = params[2] * 1024
 
     def __call__(self):
-        logging.getLogger(self.__generator__).info("Copying from %s to %s", self._src, self._dst)
+        if self._src is not None:
+            logging.getLogger(self.__generator__).info("Copying from %s to %s",
+                                                       self._src,
+                                                       self._dst)
 
-        if os.path.isdir(self._src):
-            dst = self._dst + "/" + self._src
+            if os.path.isdir(self._src):
+                dst = self._dst + "/" + self._src
 
-            if os.path.exists(dst):
-                logging.getLogger(self.__generator__).debug("Destination %s exists. Deleting it.", dst)
-                shutil.rmtree(dst)
+                if os.path.exists(dst):
+                    logging.getLogger(self.__generator__).debug("Destination %s exists. Deleting it.",
+                                                                dst)
+                    shutil.rmtree(dst)
 
-            try:
-                shutil.copytree(self._src, dst)
-            except:
-                logging.getLogger(self.__generator__).debug("Error copying %s to %s", self._src, dst)
+                try:
+                    shutil.copytree(self._src, dst)
+                except:
+                    logging.getLogger(self.__generator__).debug("Error copying %s to %s",
+                                                                self._src,
+                                                                dst)
+
+            else:
+                try:
+                    shutil.copy2(self._src, self._dst)
+                except:
+                    logging.getLogger(self.__generator__).debug("Error copying %s to %s",
+                                                                self._src,
+                                                                self._dst)
 
         else:
-            try:
-                shutil.copy2(self._src, self._dst)
-            except:
-                logging.getLogger(self.__generator__).debug("Error copying %s to %s", self._src, self._dst)
+            if (not os.path.exists(self._dst)) or (os.path.isfile(self._dst)):
+                rnd = ''.join(random.choice(string.letters) for _ in xrange(int(self._size * random.random())))
+
+                logging.getLogger(self.__generator__).info("Writing %s byte to %s",
+                                                           len(rnd),
+                                                           self._dst)
+
+                try:
+                    f = open(self._dst, "w")
+                    f.write(rnd)
+
+                except:
+                    logging.getLogger(self.__generator__).debug("Error writing to %s",
+                                                                self._dst)
+
+                else:
+                    f.close()
+
+            else:
+                logging.getLogger(self.__generator__).info("Destination %s is not a file",
+                                                           self._dst)
+
 
 class ssh_gen():
     '''
