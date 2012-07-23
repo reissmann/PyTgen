@@ -108,8 +108,8 @@ class http_gen():
 class smtp_gen():
     '''
     smtp generator
-    this generator will connect to an smtp server and send email with random
-    content to a destination address.
+    connect to an smtp server and send an email containing a random length
+    string to a destination email address.
     '''
     __generator__ = "smtp"
 
@@ -122,16 +122,16 @@ class smtp_gen():
         self._to = params[4]
 
     def __call__(self):
-        rnd = ''
-        for _ in xrange(int(10000 * random.random())):
-            rnd = rnd + random.choice(string.letters)
+        rnd = ''.join(random.choice(string.letters) for _ in xrange(int(3000 * random.random())))
 
         msg = "From: " + self._from + "\r\n" \
             + "To: " + self._to + "\r\n" \
             + "Subject: PyTgen " + str(datetime.datetime.now()) + "\r\n\r\n" \
             + rnd + "\r\n"
 
-        logging.getLogger(self.__generator__).info("Connecting to %s", self._host)
+        logging.getLogger(self.__generator__).info("Sending email to %s (size: %s)",
+                                                   self._host,
+                                                   len(rnd))
 
         try:
             sender = smtplib.SMTP(self._host, 25)
@@ -147,11 +147,12 @@ class smtp_gen():
                 sender.login(self._user, self._pass)
 
             except smtplib.SMTPAuthenticationError:
+                logging.getLogger(self.__generator__).debug("Using PLAIN auth")
                 sender.docmd("AUTH LOGIN", base64.b64encode(self._user))
                 sender.docmd(base64.b64encode(self._pass), "")
 
             sender.sendmail(self._from, self._to, msg)
-            logging.getLogger(self.__generator__).debug("Sent mail via %s", self._host)
+            logging.getLogger(self.__generator__).debug("Email sent successful")
 
         except:
             raise
@@ -316,10 +317,10 @@ class copy_gen():
 class ssh_gen():
     '''
     ssh generator.
-    this generator will connect to a host using ssh. It then starts sending 
-    commands to the host. The connection will be kept open until the connection
-    time provided in the config is over. If the commands array is empty, the
-    connection will idle until connection time is over.
+    connect to a host using ssh and start sending commands to the host. The 
+    connection will be kept open until the connection time provided in the 
+    config is over. If the commands array is empty, the connection will idle 
+    until connection time is over.
     '''
     __generator__ = "ssh"
 
