@@ -37,7 +37,8 @@ import paramiko
 class ping_gen():
     '''
     ping generator
-    this generator sends ping to a destination
+    sends a number of ICMP-PING messages to a destination. the pings are
+    delayed by n seconds (default = 1 second)
     '''
     __generator__ = 'ping'
 
@@ -45,24 +46,37 @@ class ping_gen():
                  params):
         self._host = params[0]
         self._num = params[1]
+        self._delay = 1
+
+        if len(params) == 3:
+            self._delay = params[2]
 
     def __call__(self):
-        logging.getLogger(self.__generator__).info("Sending %s PING packets to %s ", self._num, self._host)
+        logging.getLogger(self.__generator__).info("Sending %s PING messages to %s (delay: %s)",
+                                                   self._num,
+                                                   self._host,
+                                                   self._delay)
 
         for _ in range(self._num):
-            if ping.do_one(dest_addr=self._host,
-                           timeout=5,
-                           psize=64) is not None:
-                logging.getLogger(self.__generator__).debug("Got PONG from %s", self._host)
-            else:
-                logging.getLogger(self.__generator__).debug("No response from %s", self._host)
+            if ping.do_one(dest_addr = self._host,
+                           timeout = 5,
+                           psize = 64) is not None:
+                logging.getLogger(self.__generator__).debug("Got PONG from %s",
+                                                            self._host)
 
-            time.sleep(1)
+            else:
+                logging.getLogger(self.__generator__).debug("No response from %s",
+                                                            self._host)
+
+            time.sleep(self._delay)
 
 class http_gen():
     '''
     http and https generator
-    this generator will request websites from a webserver.
+    send HTTP GET requests to a webserver to retrieve a given URL n times.
+    delay the requests by a random time controlled by a multiplier. 
+    to get best results with this generator, the size of the http answers 
+    should differ (send random data)
     '''
     __generator__ = 'http'
 
@@ -70,18 +84,26 @@ class http_gen():
                  params):
         self._url = params[0]
         self._num = params[1]
+        self._multiplier = 5
+
+        if len(params) == 3:
+            self._multiplier = params[2]
 
     def __call__(self):
         for _ in range(self._num):
-            logging.getLogger(self.__generator__).info("Requesting: %s", self._url)
+            logging.getLogger(self.__generator__).info("Requesting: %s",
+                                                       self._url)
             try:
                 response = urllib2.urlopen(self._url)
-                logging.getLogger(self.__generator__).debug("Recieved %s byte from %s", str(len(response.read())), self._url)
+                logging.getLogger(self.__generator__).debug("Recieved %s bytes from %s",
+                                                            str(len(response.read())),
+                                                            self._url)
 
             except:
-                logging.getLogger(self.__generator__).debug("Failed to request %s", self._url)
+                logging.getLogger(self.__generator__).debug("Failed to request %s",
+                                                            self._url)
 
-            time.sleep(random.random() * 5)
+            time.sleep(random.random() * self._multiplier)
 
 class smtp_gen():
     '''
@@ -274,7 +296,7 @@ class ssh_gen():
                                                    self._host)
 
         realmin = self._time * 2 * random.random()
-        endtime = datetime.datetime.now() + datetime.timedelta(minutes=realmin)
+        endtime = datetime.datetime.now() + datetime.timedelta(minutes = realmin)
 
         client = paramiko.SSHClient()
         client.load_system_host_keys()
@@ -337,8 +359,8 @@ class sftp_gen():
         try:
             transport = paramiko.Transport((self._host,
                                             self._port))
-            transport.connect(username=self._user,
-                              password=self._pass)
+            transport.connect(username = self._user,
+                              password = self._pass)
 
             sftp = paramiko.SFTPClient.from_transport(transport)
 
