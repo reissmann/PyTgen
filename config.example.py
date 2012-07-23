@@ -23,7 +23,7 @@ along with PyTgen. If not, see <http://www.gnu.org/licenses/>.
 #              ('http_gen', [(h, m), (h, m), (m, s)], ['url', count [, delay]]),
 #              ('smtp_gen', [(h, m), (h, m), (m, s)], ['host', 'smtp_user', 'smtp_pass', 'mail_from', 'mail_to']),
 #              ('ftp_gen', [(h, m), (h, m), (m, s)], ['host', 'user', 'pass', [put], [get], count, ssl [, delay]]),
-#              ('copy_gen', [(h, m), (h, m), (m, s)], ['src', dst]),
+#              ('copy_gen', [(h, m), (h, m), (m, s)], ['src', dst [, size]]),
 #              ('ssh_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', minutes, commands]),
 #              ('sftp_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', [put], [get]),
 #              ('reboot_gen', [(h, m), (h, m), (m, s)], [])
@@ -67,7 +67,8 @@ along with PyTgen. If not, see <http://www.gnu.org/licenses/>.
 # copy_gen
 #    - src      file or directory to copy ("None" to generate a file with random content)
 #    - dst      destination to copy to
-#    - size     the size of a randomly generated file (used in combination with src = None)
+#    - size     the size multiplier of a randomly generated file in KB
+#               (used in combination with src = None)
 #
 # ssh_gen
 #    - host     host or ip to connect to
