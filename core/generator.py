@@ -31,6 +31,7 @@ import urllib2
 import smtplib
 import ftplib
 import shutil
+import telnetlib
 import paramiko
 
 
@@ -314,6 +315,79 @@ class copy_gen():
                                                            self._dst)
 
 
+class telnet_gen():
+    '''
+    telnet generator.
+    connect to a host using telnet and start sending commands to the host. The 
+    connection will be kept open until the connection time provided in the 
+    config is over. If the commands array is empty, the connection will idle 
+    until connection time is over.
+    '''
+    __generator__ = "telnet"
+
+    def __init__(self,
+                 params):
+        self._host = params[0]
+        self._port = params[1]
+        self._user = params[2]
+        self._pass = params[3]
+        self._time = params[4]
+        self._cmds = params[5]
+        self._multiplier = 60
+
+        if len(params) == 7:
+            self._multiplier = params[6]
+
+    def __call__(self):
+        logging.getLogger(self.__generator__).info("Connecting to %s",
+                                                   self._host)
+
+        realmin = self._time * 2 * random.random()
+        endtime = datetime.datetime.now() + datetime.timedelta(minutes = realmin)
+
+        try:
+            tn = telnetlib.Telnet(self._host, self._port)
+
+            try:
+                tn.read_until("login: ")
+                tn.write(self._user + "\n")
+                if self._pass is not None:
+                    tn.read_until("Password: ")
+                    tn.write(self._pass + "\n")
+
+            except:
+                logging.getLogger(self.__generator__).debug("Error logging in")
+
+        except:
+            logging.getLogger(self.__generator__).debug("Error connecting to %s",
+                                                        self._host)
+
+        else:
+            while datetime.datetime.now() < endtime:
+                if len(self._cmds) is not 0:
+                    self._send_cmds(tn)
+
+                else:
+                    time.sleep(realmin)
+                    break
+
+                time.sleep(self._multiplier * random.random())
+                tn.read_very_eager()
+
+            tn.write("exit\n")
+            tn.read_all()
+
+    def _send_cmds(self,
+                   tn):
+        for _ in xrange(int(6 * random.random())):
+            cmd = self._cmds[random.randint(0, (len(self._cmds) - 1))]
+            logging.getLogger(self.__generator__).debug("Sending command: %s",
+                                                        cmd)
+            tn.read_very_eager()
+            tn.write(cmd + '\n')
+            tn.read_eager()
+            time.sleep(5 * random.random())
+
 class ssh_gen():
     '''
     ssh generator.
@@ -332,6 +406,10 @@ class ssh_gen():
         self._pass = params[3]
         self._time = params[4]
         self._cmds = params[5]
+        self._multiplier = 60
+
+        if len(params) == 7:
+            self._multiplier = params[6]
 
     def __call__(self):
         logging.getLogger("paramiko").setLevel(logging.INFO)
@@ -364,7 +442,7 @@ class ssh_gen():
                     time.sleep(realmin)
                     break
 
-                time.sleep(30 * random.random())
+                time.sleep(self._multiplier * random.random())
 
             client.close()
 

@@ -24,7 +24,8 @@ along with PyTgen. If not, see <http://www.gnu.org/licenses/>.
 #              ('smtp_gen', [(h, m), (h, m), (m, s)], ['host', 'smtp_user', 'smtp_pass', 'mail_from', 'mail_to']),
 #              ('ftp_gen', [(h, m), (h, m), (m, s)], ['host', 'user', 'pass', [put], [get], count, ssl [, delay]]),
 #              ('copy_gen', [(h, m), (h, m), (m, s)], ['src', dst [, size]]),
-#              ('ssh_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', minutes, commands]),
+#              ('telnet_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', minutes, commands [, delay]]),
+#              ('ssh_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', minutes, commands [, delay]]),
 #              ('sftp_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', [put], [get]),
 #              ('reboot_gen', [(h, m), (h, m), (m, s)], [])
 #              ]
@@ -70,6 +71,15 @@ along with PyTgen. If not, see <http://www.gnu.org/licenses/>.
 #    - size     the size multiplier of a randomly generated file in KB
 #               (used in combination with src = None)
 #
+# telnet_gen
+#    - host     host or ip to connect to
+#    - port     port to connect to (None to use default of 23)
+#    - user     username to authenticate woith
+#    - pass     password to authenticate with (None = no password needed)
+#    - minutes  time the connection should be active in minutes
+#    - commands array with commands to execute (or empty array to just idle)
+#    - [delay]  multiplier to the random delay between requests in seconds (optional, default = 60)
+#
 # ssh_gen
 #    - host     host or ip to connect to
 #    - port     port to connect to
@@ -77,6 +87,7 @@ along with PyTgen. If not, see <http://www.gnu.org/licenses/>.
 #    - pass     password to authenticate with
 #    - minutes  time the connection should be active in minutes
 #    - commands array with commands to execute (or empty array to just idle)
+#    - [delay]  multiplier to the random delay between requests in seconds (optional, default = 60)
 #
 # sftp_gen
 #    - host     host or ip to connect to
