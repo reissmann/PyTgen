@@ -34,25 +34,27 @@ def create_jobs():
     for next_job in Conf.jobdef:
         logging.getLogger('main').info('creating %s', next_job)
 
-        job = core.scheduler.job(name=next_job[0],
-                                 action=eval(next_job[0])(next_job[2]),
-                                 interval=next_job[1][2],
-                                 start=next_job[1][0],
-                                 end=next_job[1][1])
+        job = core.scheduler.job(name = next_job[0],
+                                 action = eval(next_job[0])(next_job[2]),
+                                 interval = next_job[1][2],
+                                 start = next_job[1][0],
+                                 end = next_job[1][1])
         jobs.append(job)
 
     return jobs
 
 if __name__ == '__main__':
-    logging.basicConfig(level=Conf.loglevel,
-                        filename=Conf.logfile)
+    logging.basicConfig(level = Conf.loglevel,
+                        format = '%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+                        datefmt = '%Y-%m-%d %H:%M:%S',
+                        filename = Conf.logfile)
 
-    runner = core.runner(maxthreads=Conf.maxthreads)
+    runner = core.runner(maxthreads = Conf.maxthreads)
 
     jobs = create_jobs()
 
-    scheduler = core.scheduler(jobs=jobs,
-                               runner=runner)
+    scheduler = core.scheduler(jobs = jobs,
+                               runner = runner)
 
     # Stop scheduler on exit
     def signal_int(signal, frame):
