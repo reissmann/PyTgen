@@ -473,10 +473,18 @@ class sftp_gen():
         self._pass = params[3]
         self._put = params[4]
         self._get = params[5]
+        self._time = params[6]
+        self._multiplier = 60
+
+        if len(params) == 8:
+            self._multiplier = params[7]
 
     def __call__(self):
         logging.getLogger("paramiko").setLevel(logging.INFO)
         logging.getLogger(self.__generator__).info("Connecting to %s", self._host)
+
+        realmin = self._time * 2 * random.random()
+        endtime = datetime.datetime.now() + datetime.timedelta(minutes = realmin)
 
         try:
             transport = paramiko.Transport((self._host,
@@ -491,23 +499,31 @@ class sftp_gen():
                                                         self._host)
 
         else:
-            time.sleep(2 * random.random())
+            while datetime.datetime.now() < endtime:
+                put = self._put
+                get = self._get
 
-            while len(self._put) is not 0:
-                (src, dst) = self._put.pop(len(self._put) - 1)
+                if len(put) is 0 and len(get) is 0:
+                    time.sleep(realmin)
+                    break
 
-                logging.getLogger(self.__generator__).debug("Uploading %s to %s",
-                                                            src, dst)
-                sftp.put(src, dst)
+                while len(put) is not 0:
+                    (src, dst) = put.pop(len(put) - 1)
 
-            time.sleep(5 * random.random())
+                    logging.getLogger(self.__generator__).debug("Uploading %s to %s",
+                                                                src, dst)
+                    sftp.put(src, dst)
+                    time.sleep(2 * random.random())
 
-            while len(self._get) is not 0:
-                (src, dst) = self._get.pop(len(self._get) - 1)
+                while len(get) is not 0:
+                    (src, dst) = get.pop(len(get) - 1)
 
-                logging.getLogger(self.__generator__).debug("Downloading %s to %s",
-                                                            src, dst)
-                sftp.get(src, dst)
+                    logging.getLogger(self.__generator__).debug("Downloading %s to %s",
+                                                                src, dst)
+                    sftp.get(src, dst)
+                    time.sleep(2 * random.random())
+
+                time.sleep(self._multiplier * random.random())
 
             sftp.close()
             transport.close()

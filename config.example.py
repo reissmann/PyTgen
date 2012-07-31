@@ -26,7 +26,7 @@ along with PyTgen. If not, see <http://www.gnu.org/licenses/>.
 #              ('copy_gen', [(h, m), (h, m), (m, s)], ['src', dst [, size]]),
 #              ('telnet_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', minutes, commands [, delay]]),
 #              ('ssh_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', minutes, commands [, delay]]),
-#              ('sftp_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', [put], [get]),
+#              ('sftp_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', [put], [get], minutes [, delay]),
 #              ('xmpp_gen', [(h, m), (h, m), (m, s)], ['host', port, 'jabberid', 'pass', 'ressource', minutes]),
 #              ('reboot_gen', [(h, m), (h, m), (m, s)], [])
 #              ]
@@ -95,8 +95,10 @@ along with PyTgen. If not, see <http://www.gnu.org/licenses/>.
 #    - port     port to connect to
 #    - user     username to authenticate woith
 #    - pass     password to authenticate with
-#    - src      file to copy
-#    - dst      destination to copy to
+#    - put      array of files to copy (or empty array to skip upload)
+#    - get      array of files to retrieve from the server (or empty array skip download)
+#    - minutes  time the connection should be active in minutes
+#    - [delay]  multiplier to the random delay between requests in seconds (optional, default = 60)
 #
 # xmpp_gen
 #    - host     host or ip to connect to

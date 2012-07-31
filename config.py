@@ -85,7 +85,7 @@ class Conf(object):
               #('ssh_gen', [(9, 0), (18, 0), (240, 0)], ['127.0.0.1', 22, 'user', 'pass', 30, [], 20]),
               #
               # sftp
-              #('sftp_gen', [(17, 0), (18, 0), (60, 0)], ['127.0.0.1', 22, 'user', 'pass', sftp_put, sftp_get]),
+              #('sftp_gen', [(17, 0), (18, 0), (60, 0)], ['127.0.0.1', 22, 'user', 'pass', sftp_put, sftp_get, 5, 1]),
               #
               # xmpp
               #('xmpp_gen', [(16, 0), (18, 0), (0, 10)], ['127.0.0.1', 5222, 'jabberid', 'pass', 'ressource', 5]),
