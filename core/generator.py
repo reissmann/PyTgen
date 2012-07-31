@@ -33,6 +33,7 @@ import ftplib
 import shutil
 import telnetlib
 import paramiko
+import xmpp
 
 
 class ping_gen():
@@ -510,6 +511,44 @@ class sftp_gen():
 
             sftp.close()
             transport.close()
+
+class xmpp_gen():
+    '''
+    xmpp generator.
+    this generator will connect to a jabber/xmpp server and stay online for
+    some time
+    '''
+    __generator__ = "xmpp"
+
+    def __init__(self,
+                 params):
+        self._host = params[0]
+        self._port = params[1]
+        self._jid = params[2]
+        self._pass = params[3]
+        self._ressource = params[4]
+        self._minutes = params[5]
+
+    def __call__(self):
+        jid = xmpp.protocol.JID(self._jid)
+        client = xmpp.Client(jid.getDomain(), debug = [])
+
+        logging.getLogger(self.__generator__).info('Connecting to %s',
+                                                   self._host)
+
+        if client.connect(server = (self._host, self._port), use_srv = False):
+            if client.auth(jid.getNode(), self._pass, self._ressource):
+                if client.isConnected():
+                    client.sendInitPresence()
+                    time.sleep(self._minutes * 60 * random.random())
+                    client.disconnect()
+
+                else:
+                    logging.getLogger(self.__generator__).debug('Error authenticating')
+
+        else:
+            logging.getLogger(self.__generator__).debug("Error connecting to %s",
+                                                        self._host)
 
 class reboot_gen():
     '''

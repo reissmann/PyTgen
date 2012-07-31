@@ -27,6 +27,7 @@ along with PyTgen. If not, see <http://www.gnu.org/licenses/>.
 #              ('telnet_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', minutes, commands [, delay]]),
 #              ('ssh_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', minutes, commands [, delay]]),
 #              ('sftp_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', [put], [get]),
+#              ('xmpp_gen', [(h, m), (h, m), (m, s)], ['host', port, 'jabberid', 'pass', 'ressource', minutes]),
 #              ('reboot_gen', [(h, m), (h, m), (m, s)], [])
 #              ]
 
@@ -96,6 +97,14 @@ along with PyTgen. If not, see <http://www.gnu.org/licenses/>.
 #    - pass     password to authenticate with
 #    - src      file to copy
 #    - dst      destination to copy to
+#
+# xmpp_gen
+#    - host     host or ip to connect to
+#    - port     port to connect to
+#    - jabberid jabberid to use (user@server.tld)
+#    - pass     password to authenticate with
+#    - ressource the ressource id to use
+#    - minutes  time the connection should be active in minutes
 #
 # reboot_gen
 #    - no parameters
