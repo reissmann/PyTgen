@@ -526,6 +526,7 @@ class sftp_gen():
                 time.sleep(self._multiplier * random.random())
 
             sftp.close()
+            time.sleep(0.2)
             transport.close()
 
 class xmpp_gen():
