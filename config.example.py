@@ -24,7 +24,7 @@ along with PyTgen. If not, see <http://www.gnu.org/licenses/>.
 #              ('smtp_gen', [(h, m), (h, m), (m, s)], ['host', 'smtp_user', 'smtp_pass', 'mail_from', 'mail_to']),
 #              ('ftp_gen', [(h, m), (h, m), (m, s)], ['host', 'user', 'pass', [put], [get], count, ssl [, delay]]),
 #              ('copy_gen', [(h, m), (h, m), (m, s)], ['src', dst [, size]]),
-#              ('telnet_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', minutes, commands [, delay]]),
+#              ('telnet_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', minutes, commands, prompt [, delay]]),
 #              ('ssh_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', minutes, commands [, delay]]),
 #              ('sftp_gen', [(h, m), (h, m), (m, s)], ['host', port, 'user', 'pass', [put], [get], minutes [, delay]),
 #              ('xmpp_gen', [(h, m), (h, m), (m, s)], ['host', port, 'jabberid', 'pass', 'ressource', minutes]),
@@ -79,6 +79,7 @@ along with PyTgen. If not, see <http://www.gnu.org/licenses/>.
 #    - pass     password to authenticate with (None = no password needed)
 #    - minutes  time the connection should be active in minutes
 #    - commands array with commands to execute (or empty array to just idle)
+#    - prompt   significant part of the shell prompt to mark end of data to read
 #    - [delay]  multiplier to the random delay between requests in seconds (optional, default = 60)
 #
 # ssh_gen

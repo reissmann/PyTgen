@@ -56,6 +56,10 @@ class Conf(object):
                 ('file3', 'file3')
                 ]
 
+    # significant part of the shell prompt to be able to recognize 
+    # the end of a telnet data transmission
+    telnet_prompt = "$ "
+
     # job configuration (see config.example.py)
     jobdef = [# ping
               #('ping_gen', [(9, 0), (18, 0), (10, 0)], ['127.0.0.1', 5, 2]),
@@ -77,8 +81,8 @@ class Conf(object):
               #('copy_gen', [(9, 0), (18, 0), (0, 10)], ['file1', 'file2']),
               #
               # telnet
-              #('telnet_gen', [(9, 0), (18, 0), (0, 30)], ['127.0.0.1', None, 'user', 'pass', 5, ssh_commands]),
-              #('telnet_gen', [(9, 0), (18, 0), (0, 30)], ['127.0.0.1', 23, 'user', 'pass', 5, [], 20])
+              #('telnet_gen', [(9, 0), (18, 0), (60, 0)], ['127.0.0.1', None, 'user', 'pass', 5, ssh_commands, telnet_prompt, 10]),
+              #('telnet_gen', [(9, 0), (18, 0), (10, 20)], ['127.0.0.1', 23, 'user', 'pass', 2, [], "~ #"])
               #
               # ssh
               #('ssh_gen', [(9, 0), (18, 0), (120, 0)], ['127.0.0.1', 22, 'user', 'pass', 5, ssh_commands]),

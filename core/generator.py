@@ -334,10 +334,11 @@ class telnet_gen():
         self._pass = params[3]
         self._time = params[4]
         self._cmds = params[5]
+        self._prompt = params[6]
         self._multiplier = 60
 
-        if len(params) == 7:
-            self._multiplier = params[6]
+        if len(params) == 8:
+            self._multiplier = params[7]
 
     def __call__(self):
         logging.getLogger(self.__generator__).info("Connecting to %s",
@@ -373,7 +374,6 @@ class telnet_gen():
                     break
 
                 time.sleep(self._multiplier * random.random())
-                tn.read_very_eager()
 
             tn.write("exit\n")
             tn.read_all()
