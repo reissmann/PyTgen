@@ -545,19 +545,41 @@ class xmpp_gen():
         self._pass = params[3]
         self._ressource = params[4]
         self._minutes = params[5]
+        self._users = params[6]
 
     def __call__(self):
+        def receive_callback(sess,
+                             mess):
+            pass
+
         jid = xmpp.protocol.JID(self._jid)
         client = xmpp.Client(jid.getDomain(), debug = [])
 
         logging.getLogger(self.__generator__).info('Connecting to %s',
                                                    self._host)
 
+        realmin = self._minutes * 60 * 2 * random.random()
+        endtime = datetime.datetime.now() + datetime.timedelta(minutes = realmin)
+
         if client.connect(server = (self._host, self._port), use_srv = False):
             if client.auth(jid.getNode(), self._pass, self._ressource):
                 if client.isConnected():
+                    client.RegisterHandler('message', receive_callback)
                     client.sendInitPresence()
-                    time.sleep(self._minutes * 60 * random.random())
+
+                    while datetime.datetime.now() < endtime:
+                        to_user = self._users[random.randint(0, (len(self._users) - 1))]
+                        msg = ''.join(random.choice(string.letters) for _ in xrange(int(60 * random.random())))
+
+                        message = xmpp.Message(to_user, msg)
+                        message.setAttr('type', 'chat')
+                        client.send(message)
+
+                        if random.random() > 0.5:
+                            time.sleep(30 * 60 * random.random())
+
+                        time.sleep(20 * random.random())
+
                     client.disconnect()
 
                 else:
@@ -566,6 +588,7 @@ class xmpp_gen():
         else:
             logging.getLogger(self.__generator__).debug("Error connecting to %s",
                                                         self._host)
+
 
 class reboot_gen():
     '''
