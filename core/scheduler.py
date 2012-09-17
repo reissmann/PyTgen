@@ -32,30 +32,40 @@ class scheduler(threading.Thread):
             self.__interval = interval
             self.__start = start
             self.__end = end
-            self.__exec_time = datetime.datetime.now() + datetime.timedelta(seconds=self.__interval[1] * random.random(),
-                                                                            minutes=self.__interval[0] * random.random())
+            self.__exec_time = datetime.datetime.now() + datetime.timedelta(seconds = self.__interval[1] * random.random(),
+                                                                            minutes = self.__interval[0] * random.random())
 
         def __call__(self):
             today = datetime.datetime.now()
-            start = today.replace(hour=self.__start[0], minute=self.__start[1])
-            end = today.replace(hour=self.__end[0], minute=self.__end[1])
+            start = today.replace(hour = self.__start[0],
+                                  minute = self.__start[1],
+                                  second = 0, microsecond = 0)
+            end = today.replace(hour = self.__end[0],
+                                minute = self.__end[1],
+                                second = 0, microsecond = 0)
 
-            if start < self.__exec_time and end > self.__exec_time:
+            if start < self.__exec_time < end:
                 # enqueue job for "random() * 2 * interval" 
                 # in average the job will run every interval but differing randomly
-                self.__exec_time += datetime.timedelta(seconds=self.__interval[1] * random.random() * 2,
-                                                       minutes=self.__interval[0] * random.random() * 2)
+                self.__exec_time += datetime.timedelta(seconds = self.__interval[1] * random.random() * 2,
+                                                       minutes = self.__interval[0] * random.random() * 2)
 
                 if self.__exec_time < datetime.datetime.now():
-                    logging.getLogger(__name__).warning('scheduler is overloaded!')
+                    logging.getLogger("scheduler").warning('scheduler is overloaded!')
 
                 return self.__action
 
             else:
-                # enqueue job until next start time
-                self.__exec_time = start + datetime.timedelta(1)
-                logging.getLogger(__name__).info("enqueueing %s until %s", self.__name, self.__exec_time)
+                # enqueue the job until next start time
+                if self.__exec_time < start and self.__exec_time.day == start.day:
+                    self.__exec_time = start + datetime.timedelta(seconds = 1)
+                else:
+                    self.__exec_time = start + datetime.timedelta(days = 1)
+
+                logging.getLogger("scheduler").info("enqueueing %s until %s",
+                                                    self.__name, self.__exec_time)
                 return False
+
 
         def __lt__(self, other):
             if type(other) == scheduler.job:
@@ -104,10 +114,10 @@ class scheduler(threading.Thread):
                     action = job()
                     if action is not False:
                         self.__runner(action)
-                        pass
 
                     heapq.heappush(self.__jobs, job)
 
+                logging.getLogger("scheduler").debug("Sleeping %s seconds", (self.__jobs[0] - now))
                 self.__signal.wait((self.__jobs[0] - now).total_seconds())
 
             self.__signal.release()
