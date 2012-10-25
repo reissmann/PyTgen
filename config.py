@@ -38,6 +38,9 @@ class Conf(object):
                     'tail /etc/hosts', 'tail /etc/passwd', 'tail /etc/fstab',
                     'cat /var/log/messages', 'cat /etc/group', 'cat /etc/mtab']
 
+    # urls the http generator will randomly fetch from
+    http_urls = ['http://127.0.0.1', 'https://127.0.0.1']
+
     # a number of files that will randomly be used for ftp upload
     ftp_put = ['file1', 'file2', 'file3']
 
@@ -66,8 +69,8 @@ class Conf(object):
               #('ping_gen', [(16, 0), (16, 30), (5, 0)], ['127.0.0.1', 4]),
               #
               # http
-              #('http_gen', [(8, 50), (16, 30), (10, 0)], ['http://127.0.0.1', 1, 10]),
-              #('http_gen', [(9, 15), (17, 15), (10, 0)], ['https://www.google.com', 2]),
+              #('http_gen', [(8, 50), (16, 30), (1, 0)], [http_urls, 1, 10]),
+              #('http_gen', [(9, 15), (17, 15), (1, 0)], [http_urls, 2]),
               #
               # smtp
               #('smtp_gen', [(9, 0), (18, 0), (10, 0)], ['host', 'smtp_user', 'smtp_pass', 'mail_from', 'mail_to']),

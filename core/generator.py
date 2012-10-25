@@ -84,7 +84,7 @@ class http_gen():
 
     def __init__(self,
                  params):
-        self._url = params[0]
+        self._urls = params[0]
         self._num = params[1]
         self._multiplier = 5
 
@@ -93,17 +93,18 @@ class http_gen():
 
     def __call__(self):
         for _ in range(self._num):
-            logging.getLogger(self.__generator__).info("Requesting: %s",
-                                                       self._url)
+            url = self._urls[random.randint(0, (len(self._urls) - 1))]
+            logging.getLogger(self.__generator__).info("Requesting: %s", url)
+
             try:
-                response = urllib2.urlopen(self._url)
+                response = urllib2.urlopen(url)
                 logging.getLogger(self.__generator__).debug("Recieved %s bytes from %s",
                                                             str(len(response.read())),
-                                                            self._url)
+                                                            url)
 
             except:
                 logging.getLogger(self.__generator__).debug("Failed to request %s",
-                                                            self._url)
+                                                            url)
 
             time.sleep(random.random() * self._multiplier)
 

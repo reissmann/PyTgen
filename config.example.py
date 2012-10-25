@@ -20,7 +20,7 @@ along with PyTgen. If not, see <http://www.gnu.org/licenses/>.
 # example job definition
 #
 #    jobdef = [('ping_gen', [(h, m), (h, m), (m, s)], ['host', count [, delay]]),
-#              ('http_gen', [(h, m), (h, m), (m, s)], ['url', count [, delay]]),
+#              ('http_gen', [(h, m), (h, m), (m, s)], [[urls], count [, delay]]),
 #              ('smtp_gen', [(h, m), (h, m), (m, s)], ['host', 'smtp_user', 'smtp_pass', 'mail_from', 'mail_to']),
 #              ('ftp_gen', [(h, m), (h, m), (m, s)], ['host', 'user', 'pass', [put], [get], count, ssl [, delay]]),
 #              ('copy_gen', [(h, m), (h, m), (m, s)], ['src', dst [, size]]),
@@ -45,7 +45,7 @@ along with PyTgen. If not, see <http://www.gnu.org/licenses/>.
 #   - [delay]   delay between sending in seconds (optional, default = 1)
 #
 # http_gen
-#   - url       url to fetch (http://x.y.z or https://x.y.z)
+#   - [urls]    array of urls to randomly fetch from (http://x.y.z or https://x.y.z)
 #   - count     number of requests to send
 #   - [delay]   multiplier to the random delay between requests in seconds (optional, default = 5)
 #
