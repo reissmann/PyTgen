@@ -44,7 +44,7 @@ class scheduler(threading.Thread):
                                 minute = self.__end[1],
                                 second = 0, microsecond = 0)
 
-            if start < self.__exec_time < end:
+            if start <= self.__exec_time < end:
                 # enqueue job for "random() * 2 * interval" 
                 # in average the job will run every interval but differing randomly
                 self.__exec_time += datetime.timedelta(seconds = self.__interval[1] * random.random() * 2,
