@@ -192,10 +192,23 @@ class ftp_gen():
             logging.getLogger(self.__generator__).info("Connecting to ftps://%s",
                                                        self._host)
             try:
+                # 20% chanche to login with a wrong password at first try
+                if random.random() > 0.8:
+                    try:
+                        logging.getLogger(self.__generator__).debug("Logging in with wrong credentials")
+                        ftp = ftplib.FTP_TLS(self._host,
+                                             self._user,
+                                             "wrongpass")
+                    except:
+                        pass
+
+                    time.sleep(2 * random.random())
+
                 ftp = ftplib.FTP_TLS(self._host,
                                      self._user,
                                      self._pass)
                 ftp.prot_p()
+
             except:
                 logging.getLogger(self.__generator__).debug("Error connecting to ftps://%s",
                                                             self._host)
@@ -204,9 +217,22 @@ class ftp_gen():
             logging.getLogger(self.__generator__).info("Connecting to ftp://%s",
                                                        self._host)
             try:
+                # 20% chanche to login with a wrong password at first try
+                if random.random() > 0.8:
+                    try:
+                        logging.getLogger(self.__generator__).debug("Logging in with wrong credentials")
+                        ftp = ftplib.FTP(self._host,
+                                         self._user,
+                                         "wrongpass")
+                    except:
+                        pass
+
+                    time.sleep(2 * random.random())
+
                 ftp = ftplib.FTP(self._host,
                                  self._user,
                                  self._pass)
+
             except:
                 logging.getLogger(self.__generator__).debug("Error connecting to ftp://%s",
                                                             self._host)
@@ -426,6 +452,18 @@ class ssh_gen():
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
         try:
+            # 20% chanche to login with a wrong password at first try
+            if random.random() > 0.8:
+                try:
+                    client.connect(self._host,
+                                   self._port,
+                                   self._user,
+                                   "wrongpass")
+                except:
+                    pass
+
+                time.sleep(2 * random.random())
+
             client.connect(self._host,
                            self._port,
                            self._user,
