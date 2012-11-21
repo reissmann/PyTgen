@@ -97,10 +97,11 @@ class http_gen():
             logging.getLogger(self.__generator__).info("Requesting: %s", url)
 
             try:
-                response = urllib2.urlopen(url)
-                logging.getLogger(self.__generator__).debug("Recieved %s bytes from %s",
-                                                            str(len(response.read())),
-                                                            url)
+                for __ in range(int(random.random() * 15 + 1)):
+                  response = urllib2.urlopen(url)
+                  logging.getLogger(self.__generator__).debug("Recieved %s bytes from %s",
+                                                              str(len(response.read())),
+                                                              url)
 
             except:
                 logging.getLogger(self.__generator__).debug("Failed to request %s",
