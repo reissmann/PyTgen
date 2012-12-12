@@ -44,8 +44,12 @@ def create_jobs():
     return jobs
 
 if __name__ == '__main__':
-    # load the configuration
-    config_file = "configs." + platform.node()
+    # set hostbased parameters
+    hostname = platform.node()
+    log_file = 'logs/' + hostname + '.log'
+    config_file = "configs." + hostname
+
+    # load the hostbased configuration file
     _Conf = __import__(config_file, globals(), locals(), ['Conf'], -1)
     Conf = _Conf.Conf
 
@@ -53,7 +57,7 @@ if __name__ == '__main__':
     logging.basicConfig(level = Conf.loglevel,
                         format = '%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
                         datefmt = '%Y-%m-%d %H:%M:%S',
-                        filename = Conf.logfile)
+                        filename = log_file)
 
     logging.getLogger('main').info('Configuration %s loaded', config_file)
 
