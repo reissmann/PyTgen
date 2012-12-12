@@ -27,10 +27,10 @@ class Conf(object):
     maxthreads = 10
 
     # set to "logging.INFO" or "logging.DEBUG"
-    loglevel = logging.INFO
+    loglevel = logging.DEBUG
 
     # logfile location (None = log to console)
-    logfile = "pytgen.log"
+    logfile = None #"pytgen.log"
 
     # ssh commands that will be randomly executed by the ssh traffic generator
     ssh_commands = ['ls', 'cd', 'cd /etc', 'ps ax', 'date', 'mount', 'free', 'vmstat',
@@ -48,15 +48,15 @@ class Conf(object):
     ftp_get = ['file1', 'file2', 'file3']
 
     # array of source-destination tuples for sftp upload
-    sftp_put = [('file1', 'file1'),
-                ('file2', 'file2'),
-                ('file3', 'file3')
+    sftp_put = [('/tmp/file1', '/tmp/file1.0'),
+                ('/tmp/file2', '/tmp/file2.0'),
+                ('/tmp/file3', '/tmp/file3.0')
                 ]
 
     # array of source-destination tuples for sftp download
-    sftp_get = [('file1', 'file1'),
-                ('file2', 'file2'),
-                ('file3', 'file3')
+    sftp_get = [('/tmp/file1.0', '/tmp/file1'),
+                ('/tmp/file2.0', '/tmp/file2'),
+                ('/tmp/file3.0', '/tmp/file3')
                 ]
 
     # significant part of the shell prompt to be able to recognize 
@@ -65,8 +65,8 @@ class Conf(object):
 
     # job configuration (see config.example.py)
     jobdef = [# ping
-              #('ping_gen', [(9, 0), (18, 0), (10, 0)], ['127.0.0.1', 5, 2]),
-              #('ping_gen', [(16, 0), (16, 30), (5, 0)], ['127.0.0.1', 4]),
+              #('ping_gen', [(14, 33), (18, 55), (1, 0)], ['127.0.0.1', 1, 1]),
+              #('ping_gen', [(14, 38), (14, 50), (5, 0)], ['127.0.0.1', 1, 2]),
               #
               # http
               #('http_gen', [(8, 50), (16, 30), (1, 0)], [http_urls, 1, 10]),
@@ -76,7 +76,7 @@ class Conf(object):
               #('smtp_gen', [(9, 0), (18, 0), (10, 0)], ['host', 'smtp_user', 'smtp_pass', 'mail_from', 'mail_to']),
               #
               # ftp
-              #('ftp_gen', [(9, 0), (18, 0), (1, 0)], ['127.0.0.1', 'user', 'pass', ftp_put, ftp_get, 10, False, 5]),
+              ('ftp_gen', [(9, 0), (18, 0), (1, 0)], ['127.0.0.1', 'lain', 'lain', ftp_put, ftp_get, 10, False, 5]),
               #('ftp_gen', [(9, 0), (18, 0), (0, 10)], ['127.0.0.1', 'user', 'pass', ftp_put, [], 2, True]),
               #
               # nfs / smb
@@ -84,15 +84,15 @@ class Conf(object):
               #('copy_gen', [(9, 0), (18, 0), (0, 10)], ['file1', 'file2']),
               #
               # telnet
-              #('telnet_gen', [(9, 0), (18, 0), (60, 0)], ['127.0.0.1', None, 'user', 'pass', 5, ssh_commands, telnet_prompt, 10]),
+              #('telnet_gen', [(9, 0), (18, 0), (1, 0)], ['127.0.0.1', None, 'user', 'pass', 5, ssh_commands, telnet_prompt, 10]),
               #('telnet_gen', [(9, 0), (18, 0), (10, 20)], ['127.0.0.1', 23, 'user', 'pass', 2, [], "~ #"])
               #
               # ssh
-              #('ssh_gen', [(9, 0), (18, 0), (120, 0)], ['127.0.0.1', 22, 'user', 'pass', 5, ssh_commands]),
+              #('ssh_gen', [(9, 0), (18, 0), (1, 0)], ['127.0.0.1', 22, 'user', 'pass', 5, ssh_commands]),
               #('ssh_gen', [(9, 0), (18, 0), (240, 0)], ['127.0.0.1', 22, 'user', 'pass', 30, [], 20]),
               #
               # sftp
-              #('sftp_gen', [(17, 0), (18, 0), (60, 0)], ['127.0.0.1', 22, 'user', 'pass', sftp_put, sftp_get, 5, 1]),
+              #('sftp_gen', [(10, 0), (18, 0), (1, 0)], ['127.0.0.1', 22, 'user', 'pass', sftp_put, sftp_get, 5, 1]),
               #
               # xmpp
               #('xmpp_gen', [(10, 0), (18, 0), (120, 0)], ['127.0.0.1', 5222, 'jabber-id', 'password', 'ressource', 120, ['user1@server.tld', 'user2@server.tld']]),

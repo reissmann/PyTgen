@@ -10,8 +10,10 @@ Supported types of traffic are:
   ftp(s)	-	Upload and download a file
   smtp		-	Send an email of random size
   copy		-	Copy a file or directory to or from a nfs or smb share
-  ssh		-	Open an ssh connection and issue commands
+  ssh     -	Open an ssh connection and issue commands
   sftp		-	Transfer files via sftp
+  telnet  - Open a telnet connection and issue commands
+  xmpp    - Connect via xmpp and send messages
   reboot	-	Reboot the local machine
 
 Each traffic definition from the config file defines a job, that is then 
@@ -27,7 +29,9 @@ As we were not interested in packet payloads but only header information,
 there may be many situations, where the generated traffic will not match the 
 look of actual network traffic.
 
-See config.example.py for a more detailled description of the generators as
+Configuration files have to be placed in the subfolder configs and be named 
+"<hostname>.py" where <hostname> is the hostname of the host, PyTgen is running 
+on. See config.example.py for a more detailled description of the generators as
 well as configuration examples.
 
 If you have setuptools installed, you can install PyTgen using this command:

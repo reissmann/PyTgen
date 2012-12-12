@@ -19,13 +19,13 @@ along with PyTgen. If not, see <http://www.gnu.org/licenses/>.
 
 import logging
 import signal
+import platform
 
 import core.runner
 import core.scheduler
 
 from core.generator import *
 
-from config import Conf
 
 def create_jobs():
     logging.getLogger('main').info('Creating jobs')
@@ -44,11 +44,20 @@ def create_jobs():
     return jobs
 
 if __name__ == '__main__':
+    # load the configuration
+    config_file = "configs." + platform.node()
+    _Conf = __import__(config_file, globals(), locals(), ['Conf'], -1)
+    Conf = _Conf.Conf
+
+    # start logger
     logging.basicConfig(level = Conf.loglevel,
                         format = '%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
                         datefmt = '%Y-%m-%d %H:%M:%S',
                         filename = Conf.logfile)
 
+    logging.getLogger('main').info('Configuration %s loaded', config_file)
+
+    # start runner, create jobs, start scheduling
     runner = core.runner(maxthreads = Conf.maxthreads)
 
     jobs = create_jobs()
