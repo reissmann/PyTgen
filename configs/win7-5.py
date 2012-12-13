@@ -44,16 +44,16 @@ class Conf(object):
     http_intern = ['http://web.intern.ndsec']
 
     # a number of files that will randomly be used for ftp upload
-    ftp_put = ['C:/files/file%s' % i for i in xrange(0, 9)]
+    ftp_put = ['S:/share/files/file%s' % i for i in xrange(0, 9)]
 
     # a number of files that will randomly be used for ftp download
     ftp_get = ['~/files/file%s' % i for i in xrange(0, 9)]
 
     # array of source-destination tuples for sftp upload
-    sftp_put = [('C:/files/file%s' % i, '/tmp/file%s' % i) for i in xrange(0, 9)]
+    sftp_put = [('S:/share/files/file%s' % i, '/tmp/file%s' % i) for i in xrange(0, 9)]
 
     # array of source-destination tuples for sftp download
-    sftp_get = [('/media/share/files/file%s' % i, 'C:/files/tmp/file%s' % i) for i in xrange(0, 9)]
+    sftp_get = [('/media/share/files/file%s' % i, 'S:/share/files/tmp/file%s' % i) for i in xrange(0, 9)]
 
     # significant part of the shell prompt to be able to recognize
     # the end of a telnet data transmission
