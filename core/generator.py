@@ -97,7 +97,7 @@ class http_gen():
             logging.getLogger(self.__generator__).info("Requesting: %s", url)
 
             try:
-                for __ in range(int(random.random() * 15 + 1)):
+                for __ in range(int(random.random() * 10 + 1)):
                   response = urllib2.urlopen(url)
                   logging.getLogger(self.__generator__).debug("Recieved %s bytes from %s",
                                                               str(len(response.read())),
