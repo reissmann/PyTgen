@@ -78,7 +78,7 @@ class Conf(object):
               ('http_gen', [(12, 0), (12, 10), (5, 0)], [http_extern, 15, 20]),
               #
               # smtp
-              # ('smtp_gen', [(9, 0), (18, 0), (10, 0)], ['host', 'smtp_user', 'smtp_pass', 'mail_from', 'mail_to']),
+              ('smtp_gen', [(8, 0), (16, 0), (60, 0)], ['mail.extern.ndsec', 'mail10', 'mail', 'mail10@mail.extern.ndsec', 'mail51@mail.extern.ndsec']),
               #
               # ftp
               ('ftp_gen', [(9, 0), (11, 0), (15, 0)], ['ftp.intern.ndsec', 'ndsec', 'ndsec', ftp_put, ftp_get, 10, False, 5]),
@@ -102,7 +102,7 @@ class Conf(object):
               # ('sftp_gen', [(17, 0), (18, 0), (60, 0)], ['127.0.0.1', 22, 'user', 'pass', sftp_put, sftp_get, 5, 1]),
               #
               # xmpp
-              ('xmpp_gen', [(10, 0), (18, 0), (120, 0)], ['xmpp.intern.ndsec', 5222, 'xmpp10@xmpp.intern.ndsec', 'xmpp', 'xmpp10_1', 120, ['xmpp%s@xmpp.intern.ndsec' % i for i in xrange(1, 5)]]),
+              ('xmpp_gen', [(10, 0), (18, 0), (120, 0)], ['xmpp.intern.ndsec', 5222, 'xmpp10@xmpp.intern.ndsec', 'xmpp', 'xmpp10', 120, ['xmpp%s@xmpp.intern.ndsec' % i for i in xrange(1, 5)]]),
               #
               # reboot
               ('reboot_gen', [(7, 50), (8, 0), (10, 0)], [])

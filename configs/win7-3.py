@@ -84,7 +84,7 @@ class Conf(object):
               #
               # ftp
               # ('ftp_gen', [(9, 0), (11, 0), (15, 0)], ['ftp.intern.ndsec', 'ndsec', 'ndsec', ftp_put, ftp_get, 10, False, 5]),
-              ('ftp_gen', [(15, 0), (18, 0), (15, 0)], ['ftp.intern.ndsec', 'ndsec', 'ndsec', ftp_put, [], 2, False]),
+              ('ftp_gen', [(15, 0), (18, 0), (45, 0)], ['ftp.intern.ndsec', 'ndsec', 'ndsec', ftp_put, [], 2, False]),
               #
               # nfs / smb
               # ('copy_gen', [(7, 0), (8, 0), (30, 0)], [None, 'Z:/tmp/dummyfile.txt', 30]),
@@ -96,17 +96,17 @@ class Conf(object):
               # ('telnet_gen', [(9, 0), (18, 0), (10, 20)], ['127.0.0.1', 23, 'user', 'pass', 2, [], "~ #"])
               #
               # ssh
-              ('ssh_gen', [(9, 0), (18, 0), (120, 0)], ['ssh.intern.ndsec', 22, 'ndsec', 'ndsec', 5, ssh_commands]),
-              # ('ssh_gen', [(9, 0), (18, 0), (240, 0)], ['ssh.intern.ndsec', 22, 'ndsec', 'ndsec', 30, [], 20]), ('ssh_gen', [(9, 0), (18, 0), (120, 0)], ['192.168.10.50', 22, 'dummy1', 'dummy1', 5, ssh_commands]),
+              # ('ssh_gen', [(9, 0), (18, 0), (120, 0)], ['ssh.intern.ndsec', 22, 'ndsec', 'ndsec', 5, ssh_commands]),
+              ('ssh_gen', [(9, 0), (18, 0), (240, 0)], ['ssh.intern.ndsec', 22, 'ndsec', 'ndsec', 30, [], 20]),
               # ('ssh_gen', [(12, 0), (14, 0), (120, 0)], ['ssh.intern.ndsec', 22, 'dummy1', 'wrongpass', 5, ssh_commands]),
               #
               # sftp
               # ('sftp_gen', [(17, 0), (18, 0), (60, 0)], ['127.0.0.1', 22, 'user', 'pass', sftp_put, sftp_get, 5, 1]),
               #
               # xmpp
-              ('xmpp_gen', [(9, 0), (15, 0), (120, 0)], ['xmpp.intern.ndsec', 5222, 'xmpp12@xmpp.intern.ndsec', 'xmpp', 'xmpp12', 120, ['xmpp%s@xmpp.intern.ndsec' % i for i in xrange(1, 15)]]),
+              ('xmpp_gen', [(9, 0), (15, 0), (120, 0)], ['xmpp.intern.ndsec', 5222, 'xmpp15@xmpp.intern.ndsec', 'xmpp', 'xmpp15', 120, ['xmpp%s@xmpp.intern.ndsec' % i for i in xrange(1, 15)]]),
               #
               # reboot
-              ('reboot_gen', [(7, 50), (8, 0), (10, 0)], [])
-              ('reboot_gen', [(13, 0), (13, 5), (5, 0)], [])
+              # ('reboot_gen', [(7, 50), (8, 0), (10, 0)], []),
+              # ('reboot_gen', [(9, 0), (, 5), (5, 0)], [])
               ]
